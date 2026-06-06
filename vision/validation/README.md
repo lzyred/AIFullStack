@@ -1,195 +1,202 @@
-# 快速验证框架：用最小资源验证最大假设
+[中文](README.zh.md) | **English**
 
-> Sam Altman 检验：在花大量时间建产品之前，先证明有人真的需要它。
+# Lean Validation Framework: Prove the Biggest Assumption with the Least Resources
 
----
-
-## 核心认知
-
-**你不是在验证产品，你是在验证假设。**
-
-每个产品背后都有一组假设。找到最脆弱的那个，用最小的代价证伪或证实它。
+> The Sam Altman test: before you spend months building a product, prove that someone genuinely needs it.
 
 ---
 
-## 你的假设栈
+## The Core Insight
+
+**You're not validating a product. You're validating assumptions.**
+
+Every product rests on a stack of assumptions. Find the most fragile one, and disprove or confirm it at the lowest possible cost.
+
+---
+
+## Your Assumption Stack
 
 ```
-用户有这个问题（存在性假设）
+Users have this problem (existence assumption)
     ↓
-问题足够严重，用户愿意改变现有习惯（严重性假设）
+The problem is severe enough that users will change their current behavior (severity assumption)
     ↓
-用户愿意为解决方案付钱（货币化假设）
+Users will pay money to solve it (monetization assumption)
     ↓
-我们能以可持续的方式获取用户（分发假设）
+We can acquire users in a sustainable way (distribution assumption)
     ↓
-我们的解决方案能解决这个问题（技术假设）
+Our solution actually solves the problem (technical assumption)
 ```
 
-**大多数人从底部开始验证（先建产品），应该从顶部开始（先验证问题存在）。**
+**Most people start validation at the bottom (build the product first). Start at the top (validate that the problem exists first).**
 
-最脆弱的通常是"用户愿意付钱"这个假设——这是最多人骗自己的地方。
+The most fragile assumption is almost always "users will pay" — and it's where the most self-deception happens.
 
 ---
 
-## 三步验证法
+## Three-Step Validation
 
-### Step 1：问题验证（不需要产品）
+### Step 1: Problem Validation (no product needed)
 
-**目标**：找到 5 个对这个问题有真实痛苦的人。
+**Goal**: find 5 people who are genuinely suffering from this problem.
 
-**做法**：找 20 个目标用户做 30 分钟对话，只问问题，不解释你要做什么。
+**Method**: talk to 20 target users for 30 minutes each. Only ask questions — don't explain what you're building.
 
-**正确的问题**：
-- "你上次遇到 [这个问题] 是什么时候？"（测试频率）
-- "你当时怎么解决的？"（测试竞争对手和工作量）
-- "为此你花了多少时间？"（量化痛苦）
-- "你用什么工具来处理这个？"（理解现有方案）
+**Good questions**:
+- "When did you last run into [this problem]?" (tests frequency)
+- "How did you handle it?" (reveals competitors and effort)
+- "How much time did it take?" (quantifies the pain)
+- "What tools do you use for this today?" (maps the existing solution landscape)
 
-**不要问**：
-- "你觉得我们的产品怎么样？"（你没有产品）
-- "你会用 AI 来做这件事吗？"（太抽象）
-- "假如有这样一个产品，你愿意付多少钱？"（假设性问题不可信）
+**Questions to avoid**:
+- "What do you think of our product?" (you don't have one)
+- "Would you use AI to do this?" (too abstract)
+- "If a product like this existed, how much would you pay?" (hypothetical answers are unreliable)
 
-**通过标准**：20 人中有 5 人描述了几乎相同的痛苦，且痛苦发生频率 ≥ 每周一次。
-
----
-
-### Step 2：价值验证（手工模拟）
-
-**目标**：在没有产品的情况下，证明你的解决方案真的有效，且用户愿意为此付钱。
-
-**Wizard of Oz 方法**：
-
-```
-你自己用 ChatGPT / Claude 手工完成用户的任务
-  ↓
-给用户展示"产品"的输出（实际上是你手工做的）
-  ↓
-观察用户的反应：他们会再次使用吗？会推荐给他人吗？
-  ↓
-收费（哪怕 $50/月）— 免费的反馈不可信
-```
-
-**Airbnb 的案例**：创始人亲自去用户家拍照，帮助优化房源描述。这个手工过程暴露了所有建产品时想不到的真实摩擦点。
-
-**通过标准**：3 个用户愿意在没有真正产品的情况下付钱，且在你不提醒的情况下主动要求继续使用。
+**Pass criteria**: at least 5 of the 20 people describe nearly identical pain, and it happens at least once a week.
 
 ---
 
-### Step 3：规模化验证（最小产品）
+### Step 2: Value Validation (manual simulation)
 
-**目标**：自动化手工验证中重复最多的那一个步骤，看规模化是否可行。
+**Goal**: prove that your solution actually works and that users will pay for it — without a real product.
 
-**原则**：
-- 不是"完整产品"，是"能解决核心痛点的最小版本"
-- 把手工验证的 3 个用户变成产品的第一批用户
-- 衡量激活率和 D7 留存，不是用户数量
+**The Wizard of Oz method**:
 
 ```
-Week 1-2: 问题验证（20 次对话）
-Week 3-4: 价值验证（3 个用户，手工交付，收费）
-Week 5-8: 最小产品（自动化核心步骤，3 个用户转化）
-Month 3: 第一个真正通过产品付费的用户（不靠你手工帮忙）
+You manually complete the user's task using ChatGPT / Claude
+    ↓
+Show the user the "product" output (which you produced by hand)
+    ↓
+Watch their reaction: do they want to use it again? Would they refer it to a colleague?
+    ↓
+Charge for it (even $50/month) — free feedback is worthless
+```
+
+**The Airbnb example**: the founders personally photographed hosts' apartments and rewrote listing descriptions by hand. That manual process exposed every real friction point they never would have anticipated from behind a keyboard.
+
+**Pass criteria**: 3 users are willing to pay before a real product exists, and they ask to continue using it without you following up.
+
+---
+
+### Step 3: Scale Validation (minimal product)
+
+**Goal**: automate the single most-repeated step from manual validation, and check whether scaling is viable.
+
+**Principles**:
+- Not a "complete product" — the smallest version that addresses the core pain point
+- Convert the 3 users from manual validation into your first product users
+- Measure activation rate and D7 retention, not user count
+
+```
+Week 1–2:   Problem validation (20 conversations)
+Week 3–4:   Value validation (3 users, manual delivery, paid)
+Week 5–8:   Minimal product (automate the core step, convert the 3 users)
+Month 3:    First user paying through the product itself — no manual help from you
 ```
 
 ---
 
-## 妈妈测试：问对问题
+## The Mom Test: Asking the Right Questions
 
-Rob Fitzpatrick 的核心洞见：任何有礼貌的人都会给出正面回答，你不能从礼貌中学到任何东西。
+Rob Fitzpatrick's core insight: anyone who's being polite will give you a positive answer. You learn nothing from politeness.
 
-**妈妈测试**：你妈妈也无法否认的问题，才是好问题。
+**The Mom Test**: if your mom can't argue with the question, it's a good question.
 
 ```
-❌ 坏问题：
-"你觉得我们的想法怎么样？"
-"你认为人们会为这个付钱吗？"
-"你会用这个产品吗？"
+❌ Bad questions:
+"What do you think of our idea?"
+"Do you think people would pay for this?"
+"Would you use this product?"
 
-✓ 好问题：
-"你上次处理这件事花了多长时间？"
-"你现在用什么方法解决这个？"
-"你在这个方面每月花多少钱？"
-"这是你目前工作中最大的问题吗？"
+✓ Good questions:
+"How long did it take you to handle this last time?"
+"What's your current approach to solving this?"
+"How much do you spend on this per month?"
+"Is this the biggest problem you're dealing with right now?"
 ```
 
-**规则**：只问关于过去行为的问题，不问关于未来意图的问题。人们非常不擅长预测自己未来的行为。
+**The rule**: only ask about past behavior, never about future intentions. People are very bad at predicting what they'll actually do.
 
 ---
 
-## 如何避免自我欺骗
+## How to Avoid Fooling Yourself
 
-Sam Altman 的观察：他过去讨厌批评，现在会假设所有批评都是真的，再决定是否采纳。**自我信念必须与自我意识并存。**
+Sam Altman's observation: he used to hate criticism. Now he assumes all criticism is true by default, then decides whether to act on it. **Self-belief has to coexist with self-awareness.**
 
-### 五个反确认偏误的方法
+### Five Anti-Confirmation-Bias Practices
 
-**1. 预设失败场景（Premortem）**：
+**1. Run a premortem**:
 
-在启动前，写下"如果这个项目失败了，最可能的原因是什么？"。这个思维实验强制你看到盲点。
+Before you start, write down: "If this project fails, what's the most likely reason?" This thought experiment forces you to see your blind spots.
 
-**2. 设定可证伪的指标**：
+**2. Set falsifiable metrics up front**:
 
-在验证开始前就写下：
+Before validation begins, write this down:
 
 ```markdown
-我的核心假设：[目标用户] 愿意为 [解决方案] 支付 [价格]
+My core assumption: [target user] will pay [price] for [solution]
 
-证伪条件：如果在 [时间] 内，[样本量] 个目标用户中少于 [数量] 个愿意付钱，则假设不成立
+Falsification condition: if fewer than [N] out of [sample size] target users
+are willing to pay within [timeframe], the assumption is invalid
 
-当前日期：[date]
-判断截止日期：[date + 4 weeks]
+Today's date: [date]
+Decision deadline: [date + 4 weeks]
 ```
 
-**3. 区分信号和噪音**：
+**3. Distinguish signal from noise**:
 
-| 噪音（不代表什么） | 信号（值得重视） |
-|-----------------|---------------|
-| "这个功能很有意思" | 用户当场付钱 |
-| "等做好了我来用" | 用户主动推荐给同事 |
-| 投资人说"方向不错" | 用户在没提醒的情况下回来 |
-| 媒体报道关注 | 用户为产品不完善道歉并坚持用 |
+| Noise (means nothing) | Signal (worth acting on) |
+|-----------------------|--------------------------|
+| "This feature is interesting" | User pays on the spot |
+| "I'll use it when it's finished" | User proactively refers a colleague |
+| Investor says "great direction" | User comes back without a nudge |
+| Press coverage | User apologizes for the rough edges and keeps using it anyway |
 
-**4. 找最挑剔的批评者**：
+**4. Find your harshest critics**:
 
-主动去找最可能否定你判断的人——你的竞争对手、这个行业最资深的从业者、你的目标用户中最保守的那个。
+Actively seek out the people most likely to invalidate your judgment — competitors, the most experienced practitioners in the field, the most conservative users in your target segment.
 
-**5. 用行为不用态度**：
+**5. Watch behavior, not attitudes**:
 
-"用户说会用"的价值接近零。"用户实际在用"才是真实信号。设计用户测试时，只看他们做了什么，不听他们说了什么。
+"User said they would use it" is worth almost nothing. "User actually used it" is the real signal. When running user tests, only log what people did — not what they said.
 
 ---
 
-## 继续还是转向的判断标准
+## Continue vs. Pivot Decision Criteria
 
-| 用户行为 | 解读 |
-|---------|------|
-| 在没有提醒的情况下回来复用 | 继续，核心价值存在 |
-| 付钱但不活跃 | 危险，解决的不是高频痛点 |
-| 拒绝付钱但频繁使用 | 定价或商业模式问题，可调整 |
-| 不使用也不付钱 | 转向，价值主张不成立 |
-| 主动推荐给他人 | 强烈继续信号 |
-| 创始人自己不用自己的产品 | 立刻重新审视，极危险信号 |
+| User behavior | Interpretation |
+|---------------|----------------|
+| Returns unprompted to use it again | Continue — core value is real |
+| Pays but is inactive | Danger — you're not solving a high-frequency pain point |
+| Won't pay but uses it frequently | Pricing or business model issue — adjustable |
+| Neither uses nor pays | Pivot — the value proposition doesn't hold |
+| Proactively refers others | Strong signal to continue |
+| Founders don't use their own product | Stop and reassess immediately — a critical red flag |
 
-**Paul Graham 的"有机增长"测试**：如果你需要持续推动才能让用户继续用，产品本身没有动能。真正 PMF 的产品，用户会拉着你走。
+**Paul Graham's "organic growth" test**: if you have to keep pushing to get users to return, the product has no momentum of its own. When you have real PMF, users pull you forward.
 
 ---
 
-## 验证清单
+## Validation Checklist
 
 ```
-验证阶段开始前：
-□ 写下你最重要的 3 个假设
-□ 写下每个假设的证伪条件（具体数字）
-□ 设定判断截止日期
+Before validation begins:
+□ Write down your 3 most important assumptions
+□ Write down a falsification condition for each (specific numbers)
+□ Set a decision deadline
 
-验证阶段进行中：
-□ 每次用户对话结束后立刻记录：他们说了什么，他们做了什么
-□ 只记录行为，不记录态度
-□ 一旦有 3 个人主动付钱，记录为假设成立
+During validation:
+□ After every user conversation, immediately log: what they said, what they did
+□ Record behavior only — not attitudes
+□ Once 3 people proactively pay, record the assumption as confirmed
 
-验证阶段结束后：
-□ 对照证伪条件判断，不要改变标准
-□ 如果假设被证伪：找到"为什么"，重新设计新假设
-□ 如果假设成立：推进到下一层假设的验证
+After validation ends:
+□ Evaluate against your falsification conditions — don't move the goalposts
+□ If an assumption is disproved: find out why, then design a new assumption to test
+□ If an assumption holds: advance to validating the next assumption in the stack
 ```
+
+---
+
+*[中文版 (Chinese)](README.zh.md)*

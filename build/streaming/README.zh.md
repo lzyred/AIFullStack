@@ -1,18 +1,18 @@
-[中文](README.zh.md) | **English**
+[English](README.md) | **中文**
 
-# Streaming Output Implementation Guide
+# 流式输出实现指南
 
-> Streaming doesn't reduce total cost, but it transforms the user experience from "wait 5 seconds" to "content starts appearing in 0.5 seconds."
-
----
-
-## Why Streaming Matters
-
-Generating a 500-token response takes an LLM 3–8 seconds. Without streaming, users stare at a blank screen. With streaming, they see the first token within 500ms — perceived latency drops by 80%.
+> 流式输出不降低总成本，但把用户体验从"等 5 秒"变成"0.5 秒开始看到内容"。
 
 ---
 
-## Backend Implementation
+## 为什么流式输出很重要
+
+LLM 生成一段 500 token 的回复需要 3-8 秒。非流式：用户盯着空白屏幕等待。流式：用户 500ms 内看到第一个字，感知延迟下降 80%。
+
+---
+
+## 后端实现
 
 ### Anthropic
 
@@ -21,24 +21,24 @@ import anthropic
 
 client = anthropic.Anthropic()
 
-# Option 1: text_stream iterator (simplest)
+# 方式1：text_stream 迭代器（最简单）
 with client.messages.stream(
     model="claude-sonnet-4-6",
     max_tokens=1024,
-    messages=[{"role": "user", "content": "Explain quantum entanglement"}]
+    messages=[{"role": "user", "content": "解释量子纠缠"}]
 ) as stream:
     for text in stream.text_stream:
         print(text, end="", flush=True)
 
 final = stream.get_final_message()
-print(f"\nUsage: {final.usage.input_tokens} in, {final.usage.output_tokens} out")
+print(f"\n用量：{final.usage.input_tokens} in, {final.usage.output_tokens} out")
 
 
-# Option 2: raw event stream (when you need fine-grained control)
+# 方式2：原始事件流（需要细粒度控制时）
 with client.messages.stream(
     model="claude-sonnet-4-6",
     max_tokens=1024,
-    messages=[{"role": "user", "content": "Explain quantum entanglement"}]
+    messages=[{"role": "user", "content": "解释量子纠缠"}]
 ) as stream:
     for event in stream:
         if hasattr(event, 'type'):
@@ -46,7 +46,7 @@ with client.messages.stream(
                 if hasattr(event.delta, 'text'):
                     print(event.delta.text, end="", flush=True)
             elif event.type == 'message_stop':
-                print("\n[done]")
+                print("\n[完成]")
 ```
 
 ### OpenAI
@@ -58,24 +58,24 @@ client = OpenAI()
 
 stream = client.chat.completions.create(
     model="gpt-4o-mini",
-    messages=[{"role": "user", "content": "Explain quantum entanglement"}],
+    messages=[{"role": "user", "content": "解释量子纠缠"}],
     stream=True,
-    stream_options={"include_usage": True}  # must be explicitly enabled to get token usage
+    stream_options={"include_usage": True}  # 必须显式开启才能获取 token 用量
 )
 
 for chunk in stream:
     if chunk.choices and chunk.choices[0].delta.content:
         print(chunk.choices[0].delta.content, end="", flush=True)
     if chunk.usage:
-        print(f"\nUsage: {chunk.usage.total_tokens} tokens")
+        print(f"\n用量：{chunk.usage.total_tokens} tokens")
 ```
 
 ---
 
-## SSE Endpoint (for the Frontend)
+## SSE 接口（给前端用）
 
 ```python
-# Complete FastAPI + SSE example
+# FastAPI + SSE 完整示例
 from fastapi import FastAPI
 from fastapi.responses import StreamingResponse
 import anthropic
@@ -93,10 +93,10 @@ async def chat_stream(request: ChatRequest):
             messages=[{"role": "user", "content": request.message}]
         ) as stream:
             for text in stream.text_stream:
-                # SSE format: data: {json}\n\n
+                # SSE 格式：data: {json}\n\n
                 yield f"data: {json.dumps({'text': text})}\n\n"
 
-            # End-of-stream signal
+            # 流结束信号
             final = stream.get_final_message()
             yield f"data: {json.dumps({'done': True, 'usage': {'input': final.usage.input_tokens, 'output': final.usage.output_tokens}})}\n\n"
 
@@ -104,8 +104,8 @@ async def chat_stream(request: ChatRequest):
         generate(),
         media_type="text/event-stream",
         headers={
-            "Cache-Control": "no-cache",         # critical: prevent caching
-            "X-Accel-Buffering": "no",           # critical: disable Nginx buffering
+            "Cache-Control": "no-cache",         # 关键：防止缓存
+            "X-Accel-Buffering": "no",           # 关键：Nginx 不缓冲
             "Connection": "keep-alive",
         }
     )
@@ -113,7 +113,7 @@ async def chat_stream(request: ChatRequest):
 
 ---
 
-## Consuming SSE on the Frontend
+## 前端消费 SSE
 
 ```typescript
 // React + TypeScript
@@ -135,23 +135,23 @@ async function streamChat(message: string, onChunk: (text: string) => void) {
     const lines = chunk.split('\n\n').filter(line => line.startsWith('data: '));
 
     for (const line of lines) {
-      const data = JSON.parse(line.slice(6));  // strip the "data: " prefix
+      const data = JSON.parse(line.slice(6));  // 去掉 "data: " 前缀
       if (data.text) {
         onChunk(data.text);
       }
       if (data.done) {
-        console.log('Usage:', data.usage);
+        console.log('用量:', data.usage);
       }
     }
   }
 }
 
-// Using the Vercel AI SDK (recommended — wraps all of the above)
+// 使用 Vercel AI SDK（推荐，封装了以上逻辑）
 import { useChat } from 'ai/react';
 
 export function Chat() {
   const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
-    api: '/api/chat',  // points to an AI SDK-compatible backend
+    api: '/api/chat',  // 对接 AI SDK 格式的后端
   });
 
   return (
@@ -161,7 +161,7 @@ export function Chat() {
       ))}
       <form onSubmit={handleSubmit}>
         <input value={input} onChange={handleInputChange} disabled={isLoading} />
-        <button type="submit">Send</button>
+        <button type="submit">发送</button>
       </form>
     </div>
   );
@@ -170,16 +170,17 @@ export function Chat() {
 
 ---
 
-## Common Pitfalls
+## 常见踩坑
 
-| Problem | Symptom | Fix |
-|---------|---------|-----|
-| Content not rendering in real time | Stream request made but content appears all at once | Add `flush=True` (Python); set Nginx `X-Accel-Buffering: no` |
-| Progress lost after disconnect | Content disappears after a network hiccup | Implement frontend reconnect logic; cache intermediate results in Redis |
-| SSE cached by CDN | All users see the same response | Set `Cache-Control: no-cache`; configure CDN to bypass cache for `/stream` paths |
-| No error handling mid-stream | User sees a truncated response | Wrap the entire stream iteration in try/catch; send `data: {"error": "..."}` on failure |
-| Frequent drops on mobile networks | Poor user experience | Implement progress recovery: number each chunk, resume from the last received index on reconnect |
+| 问题 | 症状 | 解法 |
+|------|------|------|
+| 内容不实时显示 | 流式请求但内容一次性出现 | 加 `flush=True`（Python），设置 Nginx `X-Accel-Buffering: no` |
+| 流中断后丢失进度 | 网络抖动后内容消失 | 前端实现断线重连，后端记录生成进度（用 Redis 缓存中间结果） |
+| SSE 被 CDN 缓存 | 所有用户看到同一内容 | 设置 `Cache-Control: no-cache`，或配置 CDN 对 `/stream` 路径不缓存 |
+| 流式中途错误无法处理 | 用户看到截断的回复 | 用 try/catch 包住整个 stream 迭代，错误时发送 `data: {"error": "..."}` |
+| 移动网络频繁断连 | 用户体验差 | 实现进度恢复：给每段内容加序号，断连后从断点续传 |
+
 
 ---
 
-*[中文版 (Chinese)](README.zh.md)*
+*[English Version](README.md)*

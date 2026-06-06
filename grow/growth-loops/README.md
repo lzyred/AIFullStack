@@ -1,188 +1,194 @@
-# 增长循环设计
+[中文](README.zh.md) | **English**
 
-> Andrew Chen 检验：只有循环才能支撑规模化增长，线性渠道是一次性的。
+# Growth Loop Design
 
----
-
-## 循环 vs 线性渠道
-
-**最重要的认知**：PR 发布、Product Hunt、YC Demo Day 是线性渠道——用一次没了。增长循环是自我强化的，每轮循环产生下一轮的燃料。
-
-```
-线性渠道：
-TechCrunch 报道 → 1000 用户 → 结束
-
-增长循环：
-1000 用户 → 每人邀请 0.5 人 → 500 新用户 → 每人邀请 0.5 人 → 250 新用户 → ...
-```
-
-**核心原则**：在增长循环建立之前，线性渠道是必要的，但不要把它当成战略。
+> Andrew Chen test: only loops can sustain scale — linear channels are one-time events.
 
 ---
 
-## AI 产品适合的四种增长循环
+## Loops vs. Linear Channels
 
-### 1. UGC-SEO 循环
-
-```
-用户用 AI 生成高质量内容
-  → 内容发布到互联网（博客/文档/作品集）
-  → 搜索引擎收录
-  → 新用户通过搜索发现
-  → 新用户注册使用 AI
-  → 循环
-```
-
-**适合场景**：AI 写作工具、AI 设计工具、AI 代码生成
-
-**关键要素**：
-- AI 的输出质量足够高，值得被用户主动发布
-- 输出物有"Made with [产品名]"的自然标注
-- 建立用户作品集/画廊，提供 SEO 落地页
-
-**案例参考**：Canva 的用户设计稿被大量发布到网上，带来了大量 SEO 流量。
-
-### 2. 付费-变现循环
+**The most important distinction**: TechCrunch coverage, Product Hunt launches, and YC Demo Days are linear channels — use them once and they're done. Growth loops are self-reinforcing: each cycle generates the fuel for the next.
 
 ```
-LTV > CAC，且有利润
-  → 利润投入广告
-  → 广告带来新用户
-  → 新用户转化付费
-  → 更多利润
-  → 循环
+Linear channel:
+TechCrunch feature → 1,000 users → end
+
+Growth loop:
+1,000 users → each invites 0.5 people → 500 new users → each invites 0.5 → 250 new users → ...
 ```
 
-**适合场景**：有清晰付费路径的 AI 工具，LTV 可计算
-
-**前提条件**：
-- 已知 LTV（需要至少 3 个月的付费用户数据）
-- LTV/CAC > 3，且有足够的利润空间
-- 找到了可规模化的广告渠道
-
-**警告**：没有验证 LTV 就开始付费投放是烧钱，不是增长循环。
-
-### 3. 协作-社交循环
-
-```
-用户 A 用 AI 生成内容/完成工作
-  → 分享给用户 B（协作/查看/评论）
-  → 系统通知用户 A：B 有反馈了
-  → 用户 A 回到产品
-  → 用户 B 也注册使用
-  → 循环
-```
-
-**适合场景**：AI 协作工具（文档、设计、项目管理）
-
-**关键设计**：
-- 协作是产品的核心场景，不是附加功能
-- 分享必须有价值（不只是"看我用了新工具"）
-- 被邀请方查看时立即感受到产品价值，降低注册门槛
-
-**案例参考**：Notion AI 的文档协作，Figma 的设计协作。
-
-### 4. 工作流嵌入循环
-
-```
-AI 嵌入用户已有工作流（IDE/文档编辑器/邮件）
-  → 用户每次工作自然使用
-  → 使用数据改善个性化效果
-  → 产品更好，推荐给同事
-  → 团队采用
-  → 循环
-```
-
-**适合场景**：开发者工具、企业内部工具
-
-**关键设计**：
-- 最小化集成摩擦（IDE 插件、浏览器扩展、Slack 集成）
-- 个性化随时间改善（数据飞轮）
-- 团队共同使用时价值增加（协作数据）
-
-**案例参考**：GitHub Copilot、Cursor、Gmail Smart Compose。
+**Core principle**: before you've built a growth loop, linear channels are necessary — but don't confuse them for strategy.
 
 ---
 
-## 病毒传播设计
+## Four Growth Loops That Work for AI Products
 
-### 病毒系数计算
+### 1. UGC-SEO Loop
+
+```
+Users create high-quality content with AI
+  → Content published to the web (blog posts, docs, portfolios)
+  → Search engines index it
+  → New users discover it through search
+  → New users sign up to use the AI
+  → Loop
+```
+
+**Best fit**: AI writing tools, AI design tools, AI code generation
+
+**Key requirements:**
+- AI output quality is high enough that users genuinely want to publish it
+- Output includes a natural "Made with [product name]" attribution
+- Build a user gallery or portfolio hub as an SEO landing page
+
+**Reference**: Canva's user designs spread across the web, driving significant organic SEO traffic.
+
+### 2. Paid Acquisition Loop
+
+```
+LTV > CAC, with margin to spare
+  → Profit funds ads
+  → Ads bring new users
+  → New users convert to paid
+  → More profit
+  → Loop
+```
+
+**Best fit**: AI tools with a clear monetization path and a calculable LTV
+
+**Prerequisites:**
+- LTV is known (requires at least 3 months of paid user data)
+- LTV/CAC > 3, with real margin
+- A scalable ad channel has been identified
+
+**Warning**: running paid acquisition before validating LTV is burning cash, not building a loop.
+
+### 3. Collaboration-Social Loop
+
+```
+User A generates content / completes work with AI
+  → Shares with User B (to collaborate, view, or comment)
+  → System notifies User A: B has responded
+  → User A returns to the product
+  → User B also signs up
+  → Loop
+```
+
+**Best fit**: AI collaboration tools (documents, design, project management)
+
+**Key design requirements:**
+- Collaboration is a core product scenario, not an add-on
+- The share must have real value (not just "look what new tool I'm using")
+- Recipients immediately experience product value when viewing — minimize sign-up friction
+
+**Reference**: Notion AI document collaboration, Figma design collaboration.
+
+### 4. Workflow Embedding Loop
+
+```
+AI embedded in users' existing workflows (IDE, doc editor, email)
+  → Users naturally use it every time they work
+  → Usage data improves personalization
+  → Better product leads to colleague recommendations
+  → Team adoption
+  → Loop
+```
+
+**Best fit**: developer tools, enterprise internal tools
+
+**Key design requirements:**
+- Minimize integration friction (IDE plugin, browser extension, Slack integration)
+- Personalization improves over time (data flywheel)
+- Value increases when the team uses it together (collaborative data)
+
+**Reference**: GitHub Copilot, Cursor, Gmail Smart Compose.
+
+---
+
+## Viral Mechanics
+
+### Calculating the Viral Coefficient
 
 ```python
-# k = 邀请发出数量 × 邀请转化率
+# k = invites sent per user × invite conversion rate
 k = invites_sent_per_user * invite_conversion_rate
 
-# 案例：
-# 每用户平均发出 2 个邀请 × 25% 转化率 = k = 0.5
-# 每 1000 用户带来 500 新用户，再带来 250 新用户...
-# 1000 × (1 / (1-0.5)) = 2000 总用户（k < 1 时收敛）
+# Example:
+# 2 invites per user × 25% conversion = k = 0.5
+# 1,000 users → 500 new users → 250 new users → ...
+# 1,000 × (1 / (1 - 0.5)) = 2,000 total users (converges when k < 1)
 ```
 
-**k > 1 是超级增长，但 k = 0.5 也很有价值（增加 100% 用户，无额外成本）。**
+**k > 1 is explosive growth, but k = 0.5 is also highly valuable (doubles your user base at zero incremental cost).**
 
-### 三个可操作的病毒设计方向
+### Three Actionable Viral Design Directions
 
-**方向1：输出即广告**
+**Direction 1: Output as Advertisement**
 
 ```python
-# AI 生成物自带传播属性
+# AI-generated content carries inherent distribution
 output_watermark = {
-    "image": "AI 生成 · 由 {product_name} 创建",
-    "document": "本文档由 {product_name} AI 辅助撰写",
+    "image": "AI-generated · Created with {product_name}",
+    "document": "This document was written with AI assistance from {product_name}",
     "code": "# Generated by {product_name}",
 }
-# 关键：watermark 不能影响用户体验，不能让用户觉得被利用
-# 最好的 watermark 是用户主动选择展示，因为它给用户增加了"专业感"
+# Critical: the watermark must not degrade user experience or make users feel exploited
+# The best watermark is one users actively choose to display because it adds to their credibility
 ```
 
-**方向2：协作邀请节点**
+**Direction 2: Collaborative Invite Triggers**
 
-在用户"最兴奋的时刻"触发邀请：
-- 用户完成第一次成功输出后（Aha Moment 之后）
-- 用户想把结果分享给他人时（自然邀请时机）
-- 不是注册流程中强制插入邀请
+Trigger invites at the moment of peak user excitement:
+- Right after the user completes their first successful output (post-Aha Moment)
+- When the user wants to share their result with someone else (natural invite moment)
+- Never force an invite step into the registration flow
 
-**方向3：分享内容的可演示性**
+**Direction 3: Shareable Output**
 
-AI 生成的内容必须在分享后有独立价值，让接收者理解为什么需要这个工具：
+AI-generated content must deliver standalone value after being shared — recipients should immediately understand why they need the tool:
 
 ```
-差的分享：截图（让人看不清，无法互动）
-好的分享：可交互的 Demo 链接（让接收者立刻体验价值）
+Bad share: a screenshot (hard to read, no interactivity)
+Good share: an interactive demo link (let recipients experience value immediately)
 ```
 
 ---
 
-## 网络效应构建
+## Building Network Effects
 
-纯 AI 工具（单人使用）没有网络效应，这是最大弱点。但可以主动构建：
+A purely single-player AI tool has no network effects — this is its biggest structural weakness. But network effects can be engineered:
 
-| 网络效应类型 | AI 产品构建方式 | 难度 |
-|------------|--------------|------|
-| 协作网络效应 | 团队共同使用时价值增加（共享上下文、历史） | 中等 |
-| 数据网络效应 | 用户越多 → 训练数据越多 → 个性化越好 | 高（需要量级） |
-| 生态网络效应 | 开发者在平台上构建集成/插件 | 高（需要 API 开放） |
-| 双边市场 | AI 连接供给方和需求方 | 高（需要重新定义产品） |
+| Network Effect Type | How to Build It in AI Products | Difficulty |
+|--------------------|-------------------------------|------------|
+| Collaborative network effect | Value increases when a team uses it together (shared context, history) | Medium |
+| Data network effect | More users → more training data → better personalization | High (requires scale) |
+| Ecosystem network effect | Developers build integrations and plugins on the platform | High (requires open API) |
+| Two-sided marketplace | AI connects supply and demand | High (requires redefining the product) |
 
-**最现实的路径**：先做协作网络效应——让团队共同使用比个人使用有更高价值。
+**The most realistic path**: start with collaborative network effects — make team usage meaningfully more valuable than individual usage.
 
 ---
 
-## 什么时候开始做增长循环
+## When to Start Building Growth Loops
 
-Andrew Chen 的判断标准：
+Andrew Chen's criteria:
 
 ```
-必须先满足：
-□ D30 留存 ≥ 15% 且留存曲线已趋于平稳
-□ 激活率 ≥ 30%
-□ 有至少 100 个高度满意的核心用户
+Must be true first:
+□ D30 retention ≥ 15% and the retention curve has already flattened
+□ Activation rate ≥ 30%
+□ At least 100 highly satisfied core users
 
-才开始做：
-□ 识别产品中已有的自然传播行为
-□ 找到用户最想分享的那个时刻
-□ 设计一个不打扰用户的邀请/分享机制
-□ 测量 k 值，迭代优化
+Only then:
+□ Identify natural sharing behaviors already occurring in the product
+□ Find the moment users most want to share
+□ Design an invite/share mechanism that doesn't interrupt the user
+□ Measure k, iterate
 ```
 
-**如果在留存问题解决之前就做增长循环，k 值只会加速把不满意的用户变成负面口碑。**
+**If you build growth loops before fixing retention, k will just accelerate converting unhappy users into negative word of mouth.**
+
+---
+
+*[中文版 (Chinese)](README.zh.md)*

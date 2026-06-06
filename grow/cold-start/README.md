@@ -1,193 +1,199 @@
-# AI 产品冷启动指南
+[中文](README.zh.md) | **English**
 
-> Andrew Chen 检验：基于《The Cold Start Problem》框架，有具体路径而非泛泛而谈。
+# AI Product Cold Start Guide
 
----
-
-## 核心认知
-
-冷启动问题的本质：**每个新产品都从 0 个用户开始，而 0 个用户的产品对新用户没有价值。** 你需要找到一种方式打破这个悖论。
-
-**AI 产品的冷启动特殊性**：大多数单人使用的 AI 工具没有传统的"先有鸡还是先有蛋"问题，冷启动更多是**信任问题**——用户不信任一个没有验证的 AI 工具。
-
-**例外**：依赖用户数据反馈改进效果的 AI 产品（推荐算法、个性化模型、RAG 系统中的用户反馈循环）存在数据冷启动问题——没有数据→模型效果差→没有用户→没有数据。这类产品需要借用外部数据集或手工标注来填补早期数据空白。
+> Andrew Chen test: grounded in *The Cold Start Problem* framework — specific paths, not generic advice.
 
 ---
 
-## 两种基本路径
+## The Core Mental Model
 
-根据 YC 框架（Michael Siebel / Sam Altman）：
+The cold start problem in its essence: **every new product begins with zero users, and a product with zero users has no value for new users.** You need a way to break this paradox.
 
-### 路径 A：Hair on Fire（头发着火）
+**Why AI products are different**: most single-user AI tools don't face the classic chicken-and-egg problem. Their cold start challenge is primarily about **trust** — users don't trust an unproven AI tool.
 
-问题已存在，用户正在忍受痛苦，你提供了更好的解决方案。
-
-**验证信号**：
-- 用户已经在用低效方案解决这个问题（Excel 手动、复制粘贴、外包）
-- 用户能立即计算出你帮他节省了多少时间/钱
-- 销售对话中客户主动问价格，而不是你追着他
-
-**冷启动策略**：直接找正在痛苦的用户，速度优先。不需要教育市场，只需要证明你比现有方案更好。
-
-```
-找用户方式：
-- 行业论坛/社群：找在抱怨这个问题的帖子，主动联系
-- LinkedIn 精准搜索：按职位/行业找可能有这个痛点的人
-- Slack/Discord 社群：进入目标用户聚集的社群，观察问题
-```
-
-### 路径 B：Future Vision（创造新需求）
-
-用户不知道自己需要，产品要创造认知。难度更高，需要更多资源。
-
-**验证信号**：
-- 用户第一次看到产品时说"我之前从没想到可以这样做"
-- 需要解释才能让用户理解价值
-
-**冷启动策略**：找"中途站"市场——不要直接攻击最终市场，先在一个更小、更容易渗透的市场建立可信度和案例。
+**The exception**: AI products whose quality depends on user feedback loops (recommendation algorithms, personalization models, RAG systems with user feedback) face a data cold start problem — no data → poor model performance → no users → no data. These products need to bootstrap with external datasets or manual annotation to fill the early data gap.
 
 ---
 
-## 第一批用户从哪里来
+## Two Fundamental Paths
 
-按产品类型分类：
+Based on the YC framework (Michael Siebel / Sam Altman):
 
-| 产品类型 | 第一批用户来源 | 具体行动 |
-|---------|--------------|---------|
-| **B2C 工具**（写作/代码/设计） | Product Hunt + 社区 | PH 发布 + Reddit/Twitter 精准曝光 |
-| **B2B SaaS** | 创始人直销 | 亲自打 50 个电话，找 3-5 个先驱客户 |
-| **垂直领域 AI** | 行业社群 + KOL | 进入行业圈子，找 5 个意见领袖深度合作 |
-| **开发者工具** | GitHub + 技术社区 | 开源核心组件，Star 建立信任，再商业化 |
-| **企业内部工具** | 从自己公司开始 | 先解决自己公司的问题，再向外销售 |
+### Path A: Hair on Fire
 
-### 先驱客户（Early Adopter）的特征
+The problem already exists. Users are suffering through it. You offer a better solution.
 
-不是所有用户都适合做早期用户。先驱客户的特征：
+**Validation signals:**
+- Users are already solving this problem with inefficient workarounds (manual Excel, copy-paste, outsourcing)
+- Users can immediately calculate how much time or money you save them
+- In sales conversations, the customer asks about pricing — you're not chasing them
 
-- 有明确的痛点，且痛点足够强（已经在花钱或花时间解决）
-- 愿意接受不完美的产品换取早期使用权
-- 愿意提供详细反馈，而不只是"不错"
-- 在目标市场有影响力（他们成功了，会向同行推荐）
+**Cold start strategy**: go directly to users who are in pain. Speed over polish. You don't need to educate the market, just prove you're better than what they're doing today.
 
-**找先驱客户的方式**：去找那些已经在用复杂方式解决这个问题的人，他们已经证明了问题的存在和解决意愿。
+```
+Ways to find these users:
+- Industry forums and communities: find threads where people are complaining about this problem; reach out directly
+- LinkedIn targeted search: filter by job title and industry to find people who likely have this pain
+- Slack/Discord communities: join where your target users gather and observe what they're struggling with
+```
+
+### Path B: Future Vision (Creating New Demand)
+
+Users don't know they need this yet. The product has to create awareness. Harder, requires more resources.
+
+**Validation signals:**
+- First-time users say "I never thought this was possible"
+- You need to explain the value before users get it
+
+**Cold start strategy**: find a "stepping stone" market. Don't attack your ultimate market directly — build credibility and case studies in a smaller, more penetrable segment first.
 
 ---
 
-## 冷启动执行步骤
+## Where to Find Your First Users
 
-### Week 1-2：手工验证
+Organized by product type:
 
-在有产品之前，用手工方式模拟你的产品：
+| Product Type | First User Source | Concrete Action |
+|-------------|------------------|-----------------|
+| **B2C tools** (writing/coding/design) | Product Hunt + communities | PH launch + targeted Reddit/Twitter exposure |
+| **B2B SaaS** | Founder direct sales | Make 50 calls personally; land 3–5 design partners |
+| **Vertical AI** | Industry communities + KOLs | Enter the industry circle; work deeply with 5 opinion leaders |
+| **Developer tools** | GitHub + tech communities | Open-source a core component; use stars to build trust, then commercialize |
+| **Internal enterprise tools** | Start inside your own company | Solve your own company's problem first, then sell outward |
 
-```
-目标：找到 5 个愿意为这件事付钱的真实用户
+### What Makes a Good Early Adopter
 
-步骤：
-1. 确定你能手工解决的问题
-2. 找 10-20 个目标用户做 30 分钟对话（只问问题，不推销）
-3. 提出手工服务方案，收费（哪怕 $50/月）
-4. 观察：他们用完后会主动回来吗？
+Not all users make good early adopters. The right profile:
 
-不要做：
-- 先花 3 个月建产品再找用户
-- 免费提供服务（免费的反馈不可信）
-- 只找朋友和同事测试
-```
+- Has a specific, acute pain point (already spending money or significant time trying to solve it)
+- Willing to accept an imperfect product in exchange for early access
+- Gives detailed feedback, not just "looks good"
+- Has influence in the target market (their success becomes a referral to peers)
 
-### Week 3-8：第一批真实用户
+**How to find them**: look for people already using complex, cobbled-together solutions to solve this problem. They've already proven the problem exists and that they're motivated to fix it.
 
-```
-目标：10-50 个真实使用产品的用户
+---
 
-渠道选择原则：
-- 选择你能直接触达的渠道（不是广告）
-- 优先"高意向"渠道（用户已经在搜索解决方案）
-- 一次只专注一个渠道，验证有效后再扩展
+## Cold Start Execution Steps
 
-高意向渠道（按难度排序）：
-① 你已有的关系网络（最容易，质量最高）
-② 目标用户聚集的社群/论坛（中等）
-③ SEO / 内容营销（慢，但可规模化）
-④ 付费广告（快，但需要知道 LTV 再投）
-```
+### Weeks 1–2: Manual Validation
 
-### Month 2-3：找到可重复的获客路径
+Before you have a product, simulate it manually:
 
 ```
-判断标准：
-- 同一渠道带来的不同用户，激活率是否稳定？
-- 用户留存曲线是否趋于平稳？
-- 有没有 20% 的用户来自口碑推荐？
+Goal: find 5 real users willing to pay for this
 
-如果这三个都没有 → 先不要扩大获客，先修产品
-如果三个都满足 → 可以开始系统化运营这个渠道
+Steps:
+1. Define the problem you can solve by hand
+2. Talk to 10–20 target users for 30 minutes each (ask questions, don't pitch)
+3. Offer a manual service, and charge for it (even $50/month)
+4. Observe: do they come back unprompted?
+
+Don't:
+- Spend 3 months building a product before talking to users
+- Offer it for free (free feedback is unreliable)
+- Only test with friends and colleagues
+```
+
+### Weeks 3–8: First Real Users
+
+```
+Goal: 10–50 users genuinely using the product
+
+Channel selection principles:
+- Choose channels you can reach directly (not ads)
+- Prioritize high-intent channels (users already searching for a solution)
+- Focus on one channel at a time; expand only after validating it works
+
+High-intent channels (roughly ordered by difficulty):
+① Your existing network (easiest, highest quality)
+② Communities and forums where target users gather (medium)
+③ SEO / content marketing (slow, but scalable)
+④ Paid ads (fast, but only invest once you know LTV)
+```
+
+### Months 2–3: Find a Repeatable Acquisition Path
+
+```
+Criteria for declaring success:
+- Do different users from the same channel have a consistent activation rate?
+- Has the user retention curve flattened?
+- Are > 20% of new users coming from word of mouth?
+
+If none of these: don't scale acquisition yet — fix the product
+If all three are true: start systematically investing in this channel
 ```
 
 ---
 
-## 冷启动失败的5个常见原因
+## 5 Common Cold Start Failure Modes
 
-### 1. 太早追求病毒传播
+### 1. Chasing Virality Too Early
 
-Andrew Chen 的明确警告：**除非留存曲线已经趋于平稳，否则不要做病毒增长。**
+Andrew Chen's explicit warning: **don't pursue viral growth until the retention curve has already flattened.**
 
-Viddy 的案例：高病毒系数配合极低留存，用户数在病毒效应枯竭后立刻归零。病毒传播不能弥补留存问题，只会加快烧钱速度。
+The Viddy case: high viral coefficient paired with near-zero retention. User numbers collapsed as soon as the viral effect exhausted itself. Virality can't compensate for a retention problem — it just burns cash faster.
 
-### 2. 依赖单一平台
+### 2. Platform Dependency
 
-BranchOut 靠 Facebook Platform 达到约 4000 万 MAU（月活峰值），4 个月后 Facebook 改规则，用户数跌去 90% 以上。
+BranchOut rode Facebook Platform to roughly 40M MAU at its peak. Four months later, Facebook changed its rules — user numbers fell over 90%.
 
-冷启动时依赖平台可以，但必须尽快建立直接触达用户的渠道（邮件列表、独立社群）。
+Using a platform to bootstrap is fine, but you must quickly build a direct line to users (email list, independent community).
 
-### 3. 混淆注册和激活
+### 3. Conflating Registrations with Activations
 
-Product Hunt 发布可以带来 2000+ 注册，但其中 80% 的用户从未真正使用产品。
+A Product Hunt launch can deliver 2,000+ sign-ups, but 80% of those users will never actually use the product.
 
-**永远追踪激活率，不是注册量。** 激活 = 完成了产品的核心动作（不是注册账号）。
+**Always track activation, not registrations.** Activation = completing the core action in the product (not creating an account).
 
-### 4. 没有区分渠道质量
+### 4. Ignoring Channel Quality Differences
 
-不同渠道带来的用户质量差异极大。Social Media 广告带来的用户和 SEO 带来的用户，留存率可能相差 5 倍。
+User quality varies enormously by channel. Social media ad users and SEO users can differ in retention by a factor of 5.
 
 ```python
-# 追踪每个渠道的用户质量
+# Track user quality by acquisition channel
 metrics_by_channel = {
     "product_hunt": {"activation_rate": 0.15, "d7_retention": 0.08},
     "google_search": {"activation_rate": 0.45, "d7_retention": 0.25},
     "twitter_organic": {"activation_rate": 0.22, "d7_retention": 0.12},
-    "referral": {"activation_rate": 0.60, "d7_retention": 0.35},  # 口碑最高质量
+    "referral": {"activation_rate": 0.60, "d7_retention": 0.35},  # word-of-mouth is highest quality
 }
-# 发现：Google Search 和 Referral 值得投入，Twitter/PH 质量低
+# Conclusion: Google Search and referral are worth investing in; Twitter/PH quality is low
 ```
 
-### 5. 过度依赖一次性曝光
+### 5. Over-Relying on One-Time Exposure
 
-PR 发布、媒体报道、YC Batch 是一次性的，不是循环。用完了就没了。
+PR releases, media coverage, and YC batches are one-time events — not loops. Once spent, they're gone.
 
-**冷启动的终点是找到可重复的获客循环，而不是积累曝光次数。**
+**The goal of cold start is finding a repeatable acquisition loop, not accumulating exposure events.**
 
 ---
 
-## 产品-渠道匹配
+## Product–Channel Fit
 
-Andrew Chen 的框架：不同产品类型对应不同的增长渠道，不匹配的组合浪费资源。
+Andrew Chen's framework: different product types fit different growth channels. A mismatch wastes resources.
 
-| AI 产品类型 | 适合的获客渠道 | 不适合的渠道 |
-|------------|--------------|------------|
-| 个人生产力工具 | SEO/内容、Product Hunt、社交媒体 | 销售团队、企业广告 |
-| 企业 B2B 工具 | 直销、行业会议、推荐 | 社交媒体广告、PH |
-| 开发者工具 | GitHub、技术博客、开源 | 电视广告、社交媒体 |
-| 垂直行业 AI | 行业社群、KOL、行业媒体 | 通用广告平台 |
+| AI Product Type | Right Acquisition Channels | Wrong Channels |
+|----------------|---------------------------|----------------|
+| Personal productivity tool | SEO/content, Product Hunt, social media | Sales team, enterprise advertising |
+| Enterprise B2B tool | Direct sales, industry conferences, referrals | Social media ads, Product Hunt |
+| Developer tool | GitHub, technical blogs, open source | TV ads, social media |
+| Vertical industry AI | Industry communities, KOLs, trade media | General ad platforms |
 
 ---
 
-## 启动清单
+## Launch Checklist
 
 ```
-冷启动前必须明确：
-□ 你的先驱客户画像是什么？（具体到职位、公司规模、痛点）
-□ 他们现在用什么方式解决这个问题？（验证问题存在）
-□ 他们聚集在哪里？（找到触达渠道）
-□ 你能在 48 小时内手工交付一次价值吗？（验证可行性）
-□ 你的激活定义是什么？（不是注册，是完成核心动作）
+Clarify before starting cold start:
+□ What does your early adopter profile look like? (specific role, company size, pain point)
+□ How are they currently solving this problem? (validates the problem exists)
+□ Where do they gather? (identifies reach channels)
+□ Can you deliver value manually within 48 hours? (validates feasibility)
+□ What is your activation definition? (not sign-up — completing the core action)
 ```
+
+---
+
+*[中文版 (Chinese)](README.zh.md)*

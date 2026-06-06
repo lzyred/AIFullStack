@@ -1,49 +1,51 @@
-# LLM 框架对比：LangChain / LlamaIndex / 裸 API
+[中文](frameworks.zh.md) | **English**
 
-> 真实使用体验，不是功能列表。
+# LLM Framework Comparison: LangChain / LlamaIndex / Raw API
+
+> Real usage experience, not a feature list.
 
 ---
 
-## 先说结论
+## Bottom Line Up Front
 
-**大多数情况下，优先考虑裸 API + 少量工具函数。**
+**In most cases, default to raw API calls + a small set of utility functions.**
 
-框架在原型阶段很方便，在生产阶段经常变成障碍。
+Frameworks are convenient in the prototyping phase. In production, they often become obstacles.
 
-| 场景 | 推荐 |
-|------|------|
-| 快速原型（< 1 周） | LangChain 或 LlamaIndex |
-| RAG 系统（生产） | LlamaIndex 或裸 API |
-| Agent（生产） | 裸 API + 少量工具函数 |
-| 需要长期维护的项目 | 裸 API，只引入必要的库 |
-| 已有框架的团队 | 继续用，迁移成本高于框架问题 |
+| Scenario | Recommendation |
+|----------|----------------|
+| Rapid prototype (<1 week) | LangChain or LlamaIndex |
+| RAG system (production) | LlamaIndex or raw API |
+| Agent (production) | Raw API + minimal utility functions |
+| Long-term maintainable project | Raw API — only add libraries you actually need |
+| Team already committed to a framework | Stay with it — migration cost exceeds framework pain |
 
 ---
 
 ## LangChain
 
-**适合**：快速搭建原型，探索想法。
+**Good for**: rapid prototyping and idea exploration.
 
-**生产问题**：
-1. **抽象层太厚**：出错时调用栈 20 层，不知道问题在哪里
-2. **版本更新激进**：0.1 → 0.2 → 0.3 每次都有破坏性改变，维护成本高
-3. **LCEL 语法学习成本**：`chain = prompt | llm | parser` 看起来优雅，调试困难
-4. **性能开销**：相比裸 API，每次调用有额外的对象创建和序列化开销
-5. **过度设计**：用 LangChain 实现简单的 RAG，代码量反而比裸 API 更多
+**Production problems**:
+1. **Too many abstraction layers**: when something breaks, the call stack is 20 levels deep and you can't tell where the problem is
+2. **Aggressive versioning**: 0.1 → 0.2 → 0.3 each brought breaking changes — maintenance overhead is real
+3. **LCEL has a learning curve**: `chain = prompt | llm | parser` looks elegant but is painful to debug
+4. **Performance overhead**: extra object creation and serialization on every call compared to raw API
+5. **Overengineered for simple cases**: implementing a basic RAG with LangChain often produces more code than the raw API equivalent
 
-**什么时候值得用**：
-- 快速原型，证明想法
-- 需要 LangSmith 追踪（调试复杂链路时有用）
-- 团队已经熟悉 LangChain
+**When it's worth using**:
+- Rapid prototyping to validate an idea
+- When you need LangSmith tracing (genuinely useful for debugging complex chains)
+- Team is already familiar with LangChain
 
 ```python
-# LangChain RAG 示例（原型用）
+# LangChain RAG example (prototyping)
 from langchain_anthropic import ChatAnthropic
 from langchain_core.prompts import ChatPromptTemplate
 
 llm = ChatAnthropic(model="claude-sonnet-4-6")
 prompt = ChatPromptTemplate.from_messages([
-    ("system", "基于以下上下文回答：{context}"),
+    ("system", "Answer based on the following context: {context}"),
     ("user", "{question}")
 ])
 chain = prompt | llm
@@ -54,63 +56,63 @@ result = chain.invoke({"context": retrieved_docs, "question": user_query})
 
 ## LlamaIndex
 
-**适合**：RAG 和文档处理场景，比 LangChain 在这方面更专注。
+**Good for**: RAG and document processing — more focused than LangChain for these use cases.
 
-**优点**：
-- 文档处理和索引功能更完整（PDF、Word、HTML、Notion 等连接器）
-- RAG Pipeline 的抽象比 LangChain 更清晰
-- Query Engine 概念直观，容易理解
+**Strengths**:
+- More complete document processing and indexing (connectors for PDF, Word, HTML, Notion, etc.)
+- Cleaner RAG pipeline abstractions than LangChain
+- The Query Engine concept is intuitive and easy to reason about
 
-**生产问题**：
-1. 抽象层同样存在，出错时不好调试
-2. 版本更新也频繁
-3. 对于简单 RAG，抽象收益不明显
+**Production problems**:
+1. Same abstraction layer issues — hard to debug when things go wrong
+2. Frequent version updates
+3. For simple RAG, the abstraction overhead isn't justified
 
-**什么时候值得用**：
-- 需要处理多种文档格式的 RAG 系统
-- 需要 LlamaIndex 的连接器生态（Notion、Confluence、Google Drive 等）
+**When it's worth using**:
+- RAG systems that need to process multiple document formats
+- When you need LlamaIndex's connector ecosystem (Notion, Confluence, Google Drive, etc.)
 
 ```python
-# LlamaIndex RAG 示例
+# LlamaIndex RAG example
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
 from llama_index.llms.anthropic import Anthropic
 
 documents = SimpleDirectoryReader("data/").load_data()
 index = VectorStoreIndex.from_documents(documents)
 query_engine = index.as_query_engine(llm=Anthropic(model="claude-sonnet-4-6"))
-response = query_engine.query("你的问题")
+response = query_engine.query("your question here")
 ```
 
 ---
 
-## 裸 API（推荐生产使用）
+## Raw API (Recommended for Production)
 
-**优点**：
-- 完全可控，出错时清楚知道在哪里
-- 没有版本兼容问题
-- 性能最好
-- 代码可读性更高（对不熟悉框架的团队成员更友好）
+**Strengths**:
+- Full control — when something breaks, you know exactly where
+- No version compatibility issues
+- Best performance
+- More readable code (friendlier to team members unfamiliar with a specific framework)
 
-**缺点**：
-- 需要自己实现工具函数（分块、embedding、检索等）
-- 开发速度比框架慢
+**Weaknesses**:
+- You implement utility functions yourself (chunking, embedding, retrieval, etc.)
+- Slower initial development compared to frameworks
 
-**实际情况**：自己实现一个生产级 RAG 的核心代码不超过 300 行，框架的价值没有想象中大。
+**The reality**: a production-ready RAG core is under 300 lines of code. The value frameworks add isn't as large as it looks.
 
-### 裸 API 的生产 RAG 实现骨架
+### Production RAG Skeleton (Raw API)
 
 ```python
 import anthropic
 from sentence_transformers import CrossEncoder
 from qdrant_client import QdrantClient
 
-# 初始化
+# Initialize clients
 client = anthropic.Anthropic()
 reranker = CrossEncoder('cross-encoder/ms-marco-MiniLM-L-12-v2')
 vector_db = QdrantClient(url="http://localhost:6333")
 
 def embed(text: str) -> list[float]:
-    """用 OpenAI 或本地模型生成向量"""
+    """Generate embeddings using OpenAI or a local model"""
     from openai import OpenAI
     return OpenAI().embeddings.create(
         input=text,
@@ -118,7 +120,7 @@ def embed(text: str) -> list[float]:
     ).data[0].embedding
 
 def retrieve(query: str, top_k: int = 10) -> list[str]:
-    """向量检索"""
+    """Vector retrieval"""
     query_embedding = embed(query)
     results = vector_db.search(
         collection_name="documents",
@@ -128,31 +130,31 @@ def retrieve(query: str, top_k: int = 10) -> list[str]:
     return [r.payload["text"] for r in results]
 
 def rerank(query: str, chunks: list[str], top_k: int = 3) -> list[str]:
-    """Reranker 重排"""
+    """Reranker cross-encoder reranking"""
     pairs = [(query, chunk) for chunk in chunks]
     scores = reranker.predict(pairs)
     ranked = sorted(zip(chunks, scores), key=lambda x: x[1], reverse=True)
     return [chunk for chunk, _ in ranked[:top_k]]
 
 def answer(query: str, context: list[str]) -> str:
-    """生成答案"""
+    """Generate an answer"""
     context_text = "\n\n---\n\n".join(context)
     response = client.messages.create(
         model="claude-sonnet-4-6",
         max_tokens=1024,
-        system="""基于提供的文档回答问题。
-        - 只使用文档中的信息
-        - 如果文档中没有相关信息，说明"文档中没有这个信息"
-        - 不要编造内容""",
+        system="""Answer the question based on the provided documents.
+        - Only use information from the documents
+        - If the documents don't contain relevant information, say so clearly
+        - Do not fabricate content""",
         messages=[{
             "role": "user",
-            "content": f"<documents>\n{context_text}\n</documents>\n\n问题：{query}"
+            "content": f"<documents>\n{context_text}\n</documents>\n\nQuestion: {query}"
         }]
     )
     return response.content[0].text
 
 def rag(query: str) -> str:
-    """完整 RAG Pipeline"""
+    """Full RAG pipeline"""
     chunks = retrieve(query, top_k=10)
     top_chunks = rerank(query, chunks, top_k=3)
     return answer(query, top_chunks)
@@ -160,30 +162,30 @@ def rag(query: str) -> str:
 
 ---
 
-## 框架选择的决策依据
+## Framework Selection Criteria
 
-不要问"哪个框架更好"，要问"这个框架解决了我的哪个具体问题"。
+Don't ask "which framework is better?" Ask "what specific problem does this framework solve for me?"
 
-| 问题 | 对应工具 |
-|------|---------|
-| 需要快速搭原型，测想法 | LangChain 或 LlamaIndex |
-| 需要处理多种文档格式（PDF/Word/Notion） | LlamaIndex 的 Reader 模块 |
-| 需要追踪 LLM 调用链，方便调试 | LangSmith（LangChain 的追踪工具，可单独用） |
-| 需要稳定的生产代码，长期维护 | 裸 API + 自定义工具函数 |
-| 团队已有框架选型 | 继续用，迁移成本 > 框架问题 |
+| Problem | Right tool |
+|---------|------------|
+| Need to prototype fast and test an idea | LangChain or LlamaIndex |
+| Need to process multiple document formats (PDF / Word / Notion) | LlamaIndex Reader modules |
+| Need to trace LLM call chains for debugging | LangSmith (LangChain's tracing tool — can be used standalone) |
+| Need stable production code with long-term maintainability | Raw API + custom utility functions |
+| Team already has a framework in place | Stay with it — migration cost exceeds framework problems |
 
 ---
 
-## 一个实用的混合策略
+## A Practical Hybrid Strategy
 
-开发阶段用 LangChain/LlamaIndex 快速验证，生产阶段把核心逻辑重写为裸 API：
+Use LangChain or LlamaIndex during development to validate fast. Rewrite core logic as raw API before going to production:
 
 ```
-原型（1-2 周）：LangChain，快速验证 RAG 流程
+Prototype (1–2 weeks): LangChain — quickly validate the RAG flow
     ↓
-验证后（接近上线）：识别生产中最重要的 3-5 个函数
+Post-validation (approaching launch): identify the 3–5 functions that matter most in production
     ↓
-生产版本：重写这些函数为裸 API，保持对框架的最小依赖
+Production version: rewrite those functions as raw API calls, minimize framework dependency
     ↓
-维护期：框架升级不再影响核心逻辑
+Maintenance phase: framework upgrades no longer touch core logic
 ```

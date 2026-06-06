@@ -1,147 +1,147 @@
-# AI 产品留存机制
+[中文](README.zh.md) | **English**
 
-> Andrew Chen 检验：有可操作的结论，有具体数字基准。
+# AI Product Retention Mechanics
 
----
-
-## 核心判断
-
-**大多数 AI 产品死于留存，而不是技术。** 用户第一次使用时被"惊艳感"驱动，第二次需要被"真实价值"驱动。这两件事完全不同。
-
-Andrew Chen 的铁律：**在留存曲线趋于平稳之前，任何大规模获客投入都是在加速烧钱。**
+> Andrew Chen test: actionable conclusions, concrete benchmark numbers.
 
 ---
 
-## 留存率基准
+## The Core Insight
 
-> 以下数字适用于 **B2C 消费级 AI 工具**（写作/代码/设计类）。B2B SaaS 和企业工具应使用**年留存率**（> 85% 为良好），月维度留存约低 30-40%。消费级短视频/游戏的世界级数字对 AI 工具不适用。
+**Most AI products die from retention failure, not technical failure.** First-time users are driven by a sense of wonder. Return visits require genuine value. Those are completely different things.
 
-| 指标 | 危险 | 及格 | 优秀（B2C AI 工具） | 参考：B2B SaaS |
-|------|------|------|------|--------|
-| D1 留存 | < 20% | 25-35% | 40-50% | 较高（工作流驱动） |
-| D7 留存 | < 5% | 10-15% | 20-30% | 15-25% |
-| D30 留存 | < 2% | 5-10% | 15-25% | 20-35% |
-| MAU/注册比 | < 10% | 15-20% | 30-40% | > 30%（核心用户比例） |
-
-**最重要的判断**：留存曲线必须趋于平稳（flatten）。如果 D30 仍在持续下滑，说明没有找到真正的核心用户群，此时加大获客是无底洞。
+Andrew Chen's iron rule: **Any large-scale user acquisition investment made before the retention curve flattens is just accelerating your burn rate.**
 
 ---
 
-## AI 产品留存的特殊挑战
+## Retention Benchmarks
 
-**为什么 AI 产品的留存比传统 SaaS 难？**
+> The figures below apply to **B2C consumer AI tools** (writing/coding/design). B2B SaaS and enterprise tools should use **annual retention** (> 85% is healthy) — monthly retention tends to run 30–40% lower. World-class numbers from consumer social apps and games don't apply to AI tools.
 
-1. **惊艳效应衰减快**：新用户对 AI 输出的惊喜感在 Day 3-7 后迅速下降，期待值被重新校准
-2. **使用频率天然受限**：AI 写作助手不是每天必用工具，核心场景决定了频率上限
-3. **替代品成本为零**：从你的产品换到 ChatGPT 零迁移成本，纯功能型 AI 没有护城河
-4. **无记忆 = 无积累**：没有持久记忆的 AI 无法建立"个人化积累"，失去最重要的留存飞轮
-5. **价值证明周期长**：AI 的复合价值（越用越好）对用户感知慢，容易在价值充分体验前流失
+| Metric | Danger | Acceptable | Strong (B2C AI tools) | Reference: B2B SaaS |
+|--------|--------|------------|----------------------|---------------------|
+| D1 retention | < 20% | 25–35% | 40–50% | Higher (workflow-driven) |
+| D7 retention | < 5% | 10–15% | 20–30% | 15–25% |
+| D30 retention | < 2% | 5–10% | 15–25% | 20–35% |
+| MAU / registered | < 10% | 15–20% | 30–40% | > 30% (core user ratio) |
+
+**The most important signal**: the retention curve must flatten. If D30 is still declining steadily, you haven't found a genuine core user base. Pouring money into acquisition at this point is throwing it away.
 
 ---
 
-## 五个可操作的留存策略
+## Why Retention Is Harder for AI Products
 
-### 策略1：把 Aha Moment 压缩到 5 分钟内
+1. **The wow effect fades fast**: new users' excitement about AI output drops sharply after Day 3–7, as their expectations recalibrate
+2. **Usage frequency has a natural ceiling**: an AI writing assistant isn't a daily-habit tool for most people — the core use case determines the frequency cap
+3. **Zero switching cost**: moving from your product to ChatGPT costs nothing; purely functional AI has no moat
+4. **No memory = no accumulation**: an AI without persistent memory can't build "personalized depth," which is the most important retention flywheel
+5. **Compound value is hard to perceive**: the "gets better the more you use it" story takes time to materialize — users churn before they've experienced it
 
-用户必须在 Day 1 内完成一次"真实价值输出"。不是"探索功能"，是"解决一个真实问题"。
+---
+
+## Five Actionable Retention Strategies
+
+### Strategy 1: Compress the Aha Moment to Under 5 Minutes
+
+Users must complete one "real value delivery" within Day 1. Not "explore features" — "solve an actual problem."
 
 ```
-❌ 错误：引导用户浏览功能介绍页
-✓  正确：引导用户完成第一个真实任务，看到真实输出
+✗ Wrong: walk users through a feature tour
+✓ Right: guide users to complete their first real task and see real output
 ```
 
-**具体做法**：
-- 预设 3-5 个高质量 prompt 模板，新用户直接点击就能体验核心价值
-- 新用户激活流程限制在 3 步以内
-- 第一次输出后立刻展示"你刚节省了 XX 分钟"
+**How to do it:**
+- Pre-build 3–5 high-quality prompt templates that new users can activate with one click
+- Keep the activation flow to 3 steps or fewer
+- Immediately after the first output, show "You just saved XX minutes"
 
-### 策略2：建立个人化数据飞轮
+### Strategy 2: Build a Personalization Data Flywheel
 
-每次使用都让产品"更了解用户"，制造迁移成本：
+Every use makes the product "know the user better," increasing switching cost:
 
 ```python
-# 留存飞轮设计
-用户偏好 = {
-    "writing_style": "技术文档风格",
-    "common_topics": ["Python", "API设计", "数据库"],
-    "output_format": "带代码示例",
-    "past_projects": [...],  # 用户的历史项目上下文
+# Retention flywheel design
+user_preferences = {
+    "writing_style": "technical documentation",
+    "common_topics": ["Python", "API design", "databases"],
+    "output_format": "with code examples",
+    "past_projects": [...],  # user's historical project context
 }
 
-# 在每次 system prompt 里注入用户画像
-system = f"""你是用户的私人 AI 助手。
-用户偏好：{user_preferences}
-历史项目：{recent_projects}
-写作风格：{writing_style}
+# Inject user profile into every system prompt
+system = f"""You are the user's personal AI assistant.
+User preferences: {user_preferences}
+Recent projects: {recent_projects}
+Writing style: {writing_style}
 """
 ```
 
-**用户在产品中积累的上下文越多，切换成本越高。**
+**The more context a user accumulates in your product, the higher their switching cost.**
 
-### 策略3：Frequency Ladder — 从低频激活高频用例
+### Strategy 3: The Frequency Ladder — Activate High-Frequency Use Cases from Low-Frequency Entry Points
 
-以 Uber 为例（频率阶梯概念）：用户从"机场接送"（年2次）→"周末外出"（周1次）→"通勤"（日2次）。
+The Uber example (frequency ladder concept): users move from "airport pickup" (2x/year) → "weekend outings" (1x/week) → "daily commute" (2x/day).
 
-AI 产品同理：
-- 低频入口：偶尔问问题（每周）
-- 中频激活：日常写作辅助（每天）
-- 高频绑定：核心工作流集成（每次工作必用）
+The same applies to AI products:
+- Low-frequency entry: occasional questions (weekly)
+- Mid-frequency activation: daily writing assistance (daily)
+- High-frequency lock-in: core workflow integration (every work session)
 
-**行动**：识别高频用户的使用模式，在低频用户 Day 7 时主动推送高频用例引导。
+**Action**: identify the usage patterns of your most active users. At Day 7, proactively surface high-frequency use case suggestions to low-frequency users.
 
-### 策略4：社交反馈环
+### Strategy 4: Social Feedback Loops
 
-> **前提条件**：此策略仅适用于输出物具备天然分享属性的 AI 产品（AI 设计工具、AI 协作文档）。单人生产力工具（个人写作助手、私人代码助手）强行加社交层会增加摩擦而非提升留存。
+> **Prerequisite**: this strategy only works for AI products whose output is naturally shareable (AI design tools, AI collaborative documents). For single-user productivity tools (personal writing assistants, private coding assistants), bolting on a social layer adds friction rather than improving retention.
 
 ```
-用户用 AI 生成内容
-  → 分享给他人（内容本身有分享价值）
-  → 他人评论/反馈
-  → 通知拉用户回来  ← 留存触发点
-  → 用户继续使用 AI
+User creates content with AI
+  → Shares it with others (the content itself has sharing value)
+  → Others comment / give feedback
+  → Notification pulls the user back  ← retention trigger
+  → User continues using AI
 ```
 
-**具体实现**：让 AI 的输出物具备"天然分享属性"——AI 生成的文档、设计稿，让它们能被协作者查看和评论。
+**Implementation**: make AI output natively shareable — AI-generated documents and designs that collaborators can view and comment on.
 
-### 策略5：基于行为的智能触达
+### Strategy 5: Behavior-Triggered Re-engagement
 
 ```python
-# 基于用户信号的再激活，不是群发广告
+# Re-activation based on user signals, not mass blasts
 triggers = {
-    "connected_project_update": "你上次在做的项目 {project_name} 有相关新资料，要继续吗？",
-    "weekly_insight": f"你本周用 AI 节省了 {time_saved} 分钟，比上周提升了 {improvement}%",
-    "capability_unlock": "新功能：{feature} 正好适合你之前做的 {use_case}",
+    "connected_project_update": "There's new material relevant to {project_name}, your last project — want to pick it up?",
+    "weekly_insight": f"You saved {time_saved} minutes with AI this week — {improvement}% more than last week",
+    "capability_unlock": "New feature: {feature} — a natural fit for {use_case} based on what you've been working on",
 }
-# 永远不要发"我们想念你！"这种内容
+# Never send "We miss you!" messages
 ```
 
 ---
 
-## 留存杀手：最常见的问题
+## Retention Killers: The Most Common Failure Modes
 
-| 杀手 | 表现 | 解法 |
-|------|------|------|
-| Onboarding 不到位 | Day 1 流失率 > 70% | 用户在第一次会话内必须体验到核心价值 |
-| 无差异化核心价值 | 用户直接用 ChatGPT 替代 | 找到"只有我能做到"的场景（私有数据/工作流集成/垂直深度） |
-| 通知滥用 | 退订率持续上升 | 每条通知都要有个人化的真实价值，不发群发内容 |
-| 功能堆砌而非体验深化 | 用户用了几个功能后不再回来 | 把现有功能做到极致，而不是加新功能 |
-| 无记忆无个性化 | 每次对话从零开始 | 建立用户画像和历史上下文，让产品越用越懂用户 |
+| Killer | Symptom | Fix |
+|--------|---------|-----|
+| Weak onboarding | D1 churn > 70% | Users must experience core value within the first session |
+| No differentiated value | Users just switch to ChatGPT | Find the "only we can do this" scenario: private data, workflow integration, or vertical depth |
+| Notification abuse | Unsubscribe rate climbing | Every notification must carry personalized, real value — no bulk sends |
+| Feature sprawl instead of depth | Users try a few features and don't come back | Go deep on existing features instead of adding new ones |
+| No memory, no personalization | Every conversation starts from scratch | Build user profiles and historical context so the product learns over time |
 
 ---
 
-## 诊断工具：Cohort 留存分析
+## Diagnostic Tool: Cohort Retention Analysis
 
-**一定要做 Cohort 分析，不要只看平均值。**
+**Always run cohort analysis — never rely on averages.**
 
-平均 D30 留存 15% 可能隐藏"老用户留存 30%，但新用户只有 5%"的恶化趋势。
+An average D30 retention of 15% can hide the fact that old-user retention is 30% while new-user retention has dropped to 5%.
 
 ```python
-# 按注册时间分队列，追踪每个队列的留存曲线
+# Segment users by registration date, track the retention curve for each cohort
 import pandas as pd
 
 def cohort_retention(events_df: pd.DataFrame) -> pd.DataFrame:
     """
-    events_df 列：user_id, event_date, registration_date
+    events_df columns: user_id, event_date, registration_date
     """
     events_df['cohort'] = pd.to_datetime(events_df['registration_date']).dt.to_period('W')
     events_df['days_since_registration'] = (
@@ -155,25 +155,29 @@ def cohort_retention(events_df: pd.DataFrame) -> pd.DataFrame:
 
     return retention.unstack()
 
-# 关注：各队列的 D7 留存是否在提升？
-# 如果新队列的留存比老队列低，说明产品在退步
+# Watch for: is D7 retention improving across newer cohorts?
+# If newer cohorts retain worse than older ones, the product is regressing
 ```
 
 ---
 
-## 行动清单
+## Action Checklist
 
 ```
-本周必须知道的数字：
-□ D1 留存率是多少？
-□ D7 留存率是多少？
-□ 留存曲线有没有趋于平稳？
-□ 最活跃用户（top 10%）的使用模式是什么？
-□ 流失用户在哪个节点离开的？
+Numbers you must know this week:
+□ What is your D1 retention rate?
+□ What is your D7 retention rate?
+□ Has the retention curve flattened?
+□ What are the usage patterns of your top 10% most active users?
+□ At what point in the journey do churned users drop off?
 
-根据数据的下一步：
-→ D1 < 20%：立即优化 Onboarding，在 5 分钟内让用户体验核心价值
-→ 留存持续下降：先找核心用户群，深度服务他们，再扩张
-→ 留存已趋平稳但 D30 < 10%：优化 Frequency Ladder，把低频用户推向高频场景
-→ 留存 D30 > 20% 且趋平：可以开始思考增长，但先固化获客渠道质量
+Next steps based on the data:
+→ D1 < 20%: fix onboarding immediately — get users to core value within 5 minutes
+→ Retention still declining: find the core user base first, serve them deeply before expanding
+→ Curve flattening but D30 < 10%: work the Frequency Ladder — push low-frequency users toward high-frequency use cases
+→ D30 > 20% and curve is flat: start thinking about growth, but first lock in acquisition channel quality
 ```
+
+---
+
+*[中文版 (Chinese)](README.zh.md)*

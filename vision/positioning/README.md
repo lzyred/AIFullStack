@@ -1,158 +1,164 @@
-# AI 产品定位：止痛药 vs 维生素
+[中文](README.zh.md) | **English**
 
-> Sam Altman 检验：解决真实问题，而不是展示技术可能性。
+# AI Product Positioning: Painkiller vs. Vitamin
 
----
-
-## 核心问题
-
-**在动手做之前，先回答这一个问题：你的用户现在如果没有你的产品，他们的痛有多深？**
-
-这是所有定位判断的起点。
+> The Sam Altman test: solve a real problem, don't showcase what technology can do.
 
 ---
 
-## 止痛药 vs 维生素的判断标准
+## The Core Question
 
-| 止痛药 | 维生素 |
-|--------|--------|
-| 用户现在每天在手动做这件事 | 用户说"以后可能会用" |
-| 不用你的产品要多花 2+ 小时 | 用了"感觉更好" |
-| 有明确的货币损失或时间损失 | 效率提升但难以量化 |
-| 用户主动找到你 | 你需要教育用户为什么需要 |
-| 用户在没提醒的情况下第二天回来 | 用户说"很有意思"但不再回来 |
+**Before you write a single line of code, answer this: how much pain are your users in right now without your product?**
 
-**实际测试**：问用户"如果明天这个产品消失，你会怎么办？"
-
-- 止痛药用户：会很麻烦，需要找替代方案，或者回到低效的旧方式
-- 维生素用户：不太方便，但也没太大影响
+Everything else in positioning flows from here.
 
 ---
 
-## AI 产品的定位陷阱
+## How to Tell a Painkiller from a Vitamin
 
-### 陷阱1：做更好的 ChatGPT
+| Painkiller | Vitamin |
+|------------|---------|
+| Users are manually doing this every day | Users say "I might use this someday" |
+| Without you, they lose 2+ hours | With you, they "feel more productive" |
+| There's a clear monetary or time cost | Efficiency gains that can't be quantified |
+| Users found you on their own | You have to educate them on why they need this |
+| Users come back the next day without a nudge | Users say "interesting" and never return |
 
-**最大的误区**。这相当于 2005 年做"比 Google 更好的搜索引擎"。
+**The real test**: ask users "if this product disappeared tomorrow, what would you do?"
 
-问题在于：OpenAI、Anthropic 每隔几个月就会发布更好的基础模型，每次发布都会把你的"差异化"清零。你在和资本无限的公司比谁的通用能力强，这是一场你无法赢的战争。
-
-**正确路径**：找到 ChatGPT 不愿意做的"脏活"：
-- 需要高度合规的行业（医疗、法律、金融）
-- 需要私有数据集成的场景（公司内部知识库、行业专属数据）
-- 需要工作流编排而非单次问答的场景（多步骤自动化、系统集成）
-
-### 陷阱2：功能完整但场景模糊
-
-"一个可以帮你做所有事的 AI 助手"——这不是定位，这是无定位。
-
-**具体的场景定位**：
-```
-❌ "AI 助手，帮你处理各种工作"
-✓  "专为独立律师设计的合同初审 AI，30 分钟完成人工需要 3 小时的工作"
-
-❌ "AI 写作工具"
-✓  "给 B2B SaaS 公司的 Cold Email AI，提升回复率"
-```
-
-### 陷阱3：解决低频问题
-
-AI 产品的留存天然依赖使用频率。如果核心场景每月只发生 2 次，用户不会形成使用习惯，留存曲线会持续下滑。
-
-**频率评估**：
-- 高频（每天）：写作辅助、代码补全、客服回复
-- 中频（每周）：市场分析、内容创作、邮件营销
-- 低频（每月）：合同审查、税务处理、年度报告
-
-低频场景不是不能做，但需要更强的使用动机（节省时间 > 50% 或成本 > 50%）才能支撑足够的付费意愿。
+- Painkiller users: it'd be a serious problem — they'd need a workaround or go back to a slow manual process
+- Vitamin users: a mild inconvenience, but not a big deal
 
 ---
 
-## 垂直 AI vs 通用 AI
+## Positioning Traps in AI Products
 
-### 垂直 AI 的护城河
+### Trap 1: Building a Better ChatGPT
 
+**The most common mistake.** This is the 2005 version of "we're building a better search engine than Google."
+
+The problem: OpenAI and Anthropic ship better foundation models every few months. Each release wipes out your "differentiation." You're competing on general capability against companies with unlimited capital — a fight you cannot win.
+
+**The right path**: find the "dirty work" ChatGPT won't do:
+- Highly regulated industries (healthcare, legal, finance)
+- Scenarios that require private data integration (internal knowledge bases, industry-specific datasets)
+- Workflows that require orchestration rather than one-shot Q&A (multi-step automation, system integration)
+
+### Trap 2: Full-Featured but Unfocused
+
+"An AI assistant that helps you do everything" — that's not a position, it's the absence of one.
+
+**Concrete scenario positioning**:
 ```
-护城河层级（从强到弱）：
+❌ "AI assistant for all your work tasks"
+✓  "Contract pre-review AI built for solo attorneys — 30 minutes for work that takes 3 hours manually"
 
-1. 私有数据护城河
-   - 独家行业数据集（法律案例库、医疗记录、金融数据）
-   - 用户使用数据形成的个性化模型
-   - 难以被 OpenAI 复制的原因：数据需要时间和关系积累
-
-2. 工作流集成护城河
-   - 深度集成用户已有系统（ERP/CRM/行业专软）
-   - 一旦集成，替换成本极高
-   - 难以被复制的原因：需要大量定制开发和关系维护
-
-3. 监管合规护城河
-   - 医疗 HIPAA、金融 SOC2、法律特权保护
-   - ChatGPT 不会为单个行业做深度合规
-   - 难以被复制的原因：合规认证耗时耗资，有先发优势
-
-4. 网络效应护城河
-   - 用户越多，产品越好（数据飞轮）
-   - 协作场景中团队使用价值大于个人使用
-   - 相对难建立，但一旦建立极难打破
+❌ "AI writing tool"
+✓  "Cold email AI for B2B SaaS companies, built to lift reply rates"
 ```
 
-### 判断你该做垂直还是通用
+### Trap 3: Solving Low-Frequency Problems
+
+AI product retention naturally depends on usage frequency. If the core use case only happens twice a month, users never form a habit, and your retention curve will keep sliding.
+
+**Frequency tiers**:
+- High (daily): writing assistance, code completion, customer support replies
+- Medium (weekly): market analysis, content creation, email marketing
+- Low (monthly): contract review, tax processing, annual reporting
+
+Low-frequency use cases aren't a dead end — but they need a much stronger value prop (saving >50% of time or cost) to justify sustained willingness to pay.
+
+---
+
+## Vertical AI vs. General AI
+
+### Moats for Vertical AI
 
 ```
-做垂直 AI 的信号：
-□ 你对某个行业有深度认知（3年以上）
-□ 该行业有特殊的数据或工作流要求
-□ 该行业的用户有明确的付费意愿（B2B 优先）
-□ 现有通用 AI 工具不能直接解决（需要定制）
+Moat strength (strongest to weakest):
 
-做通用 AI 的信号（门槛极高）：
-□ 你有独特的分发渠道（平台、用户群）
-□ 你有独特的数据（不是公开数据）
-□ 你的技术有实质性差异（不只是调用 OpenAI API）
+1. Proprietary data moat
+   - Exclusive industry datasets (legal case libraries, medical records, financial data)
+   - Personalized models built from user behavior
+   - Why OpenAI can't replicate it: data takes time and relationships to accumulate
 
-如果没有以上任何一条，做通用 AI 只是 API wrapper，没有前途。
+2. Workflow integration moat
+   - Deep integration with existing systems (ERP/CRM/industry-specific software)
+   - Switching costs are extremely high once embedded
+   - Why it's hard to replicate: requires significant custom development and relationship maintenance
+
+3. Regulatory compliance moat
+   - Healthcare HIPAA, finance SOC2, attorney-client privilege
+   - ChatGPT won't pursue deep compliance for individual industries
+   - Why it's hard to replicate: compliance certifications are expensive and slow — first-mover advantage matters
+
+4. Network effect moat
+   - More users → better product (data flywheel)
+   - Team value exceeds individual value in collaborative scenarios
+   - Hardest to build, but nearly impossible to break once established
+```
+
+### Should You Go Vertical or General?
+
+```
+Signals you should build a vertical AI:
+□ You have deep domain expertise in a specific industry (3+ years)
+□ That industry has unique data or workflow requirements
+□ Users in that industry have a clear willingness to pay (B2B preferred)
+□ Existing general-purpose AI tools can't solve the problem without customization
+
+Signals you should build a general AI (bar is extremely high):
+□ You have a unique distribution channel (platform, existing user base)
+□ You have unique data (not publicly available)
+□ Your technology has a meaningful edge (not just wrapping the OpenAI API)
+
+Without at least one of the above, building general AI is just an API wrapper — no future in it.
 ```
 
 ---
 
-## 和竞争对手定位的关系
+## Positioning Against Competitors
 
-Paul Graham 的框架：进入有竞争的市场可以，但必须有**"对手没有勇气做的那件事"**。
+Paul Graham's framework: entering a competitive market is fine, but you need **"the thing your competitors don't have the nerve to do."**
 
-**Google 的案例**：之前的搜索引擎害怕把用户送走太快，Google 反其道而行——越好越快送走用户，反而成了最被信任的。
+**Google's example**: every other search engine was afraid to send users away too quickly. Google did the opposite — the better it got, the faster it moved users along — and became the most trusted search engine as a result.
 
-**在 AI 领域找到你的"Google 时刻"**：
-- 什么是你的竞争对手害怕做的事？
-- 什么是看起来违反直觉但实际上更好的做法？
-- 用户真正想要什么，但没人敢直接提供？
-
----
-
-## 定位验证框架
-
-在写第一行代码前，用这三个问题验证定位：
-
-### 问题1：用户现在在用什么解决这个问题？
-
-如果答案是"没有"或"手动做"，验证问题存在。如果有成熟的解决方案，你需要说清楚你比它好在哪里，并且这个"好"对用户真的重要。
-
-### 问题2：用户上次为这个问题花了多少时间/钱？
-
-如果用户能给出具体数字，问题是真实的。如果用户说"不确定"或"说不清楚"，问题可能没有你想的那么迫切。
-
-### 问题3：如果你的产品 10x 更好，用户会换吗？
-
-如果答案是"不一定，因为迁移成本太高"，说明这是一个有护城河的市场（对你来说也意味着进入难度大）。如果答案是"会"，说明用户有切换意愿，是值得进入的市场。
+**Find your "Google moment" in AI**:
+- What is your competition too afraid to do?
+- What seems counterintuitive but is actually better?
+- What do users actually want that no one has the courage to deliver directly?
 
 ---
 
-## 定位清单
+## Positioning Validation Framework
+
+Before you write the first line of code, validate your position with these three questions.
+
+### Question 1: What are users using today to solve this problem?
+
+If the answer is "nothing" or "doing it manually," the problem is real. If a mature solution already exists, you need to articulate exactly how you're better — and that "better" needs to matter to users.
+
+### Question 2: How much time or money did users spend on this problem last time?
+
+If they can give you a specific number, the problem is real. If they say "I'm not sure" or "hard to say," the problem probably isn't as urgent as you think.
+
+### Question 3: If your product were 10x better, would users switch?
+
+If the answer is "not necessarily — switching costs are too high," you're looking at a market with strong existing moats (which also means it's hard to enter). If the answer is "yes," users are ready to switch — that's a market worth entering.
+
+---
+
+## Positioning Checklist
 
 ```
-上线前必须明确：
-□ 你的用户现在在手动做什么，花多少时间？
-□ 你能帮他节省多少，可以量化吗？
-□ 为什么 ChatGPT 解决不了这个问题？
-□ 你的护城河是私有数据/工作流集成/合规哪一个？
-□ 你的核心场景发生频率是多少（每天/每周/每月）？
+Must be clear before launch:
+□ What are your users manually doing today, and how long does it take?
+□ How much can you save them — and can you quantify it?
+□ Why can't ChatGPT solve this problem?
+□ Which moat are you building: proprietary data, workflow integration, or compliance?
+□ How often does the core use case occur — daily, weekly, or monthly?
 ```
+
+---
+
+*[中文版 (Chinese)](README.zh.md)*

@@ -1,38 +1,40 @@
-# 向量数据库对比：Qdrant / Pinecone / pgvector
+[中文](vector-databases.zh.md) | **English**
 
-> 不是功能列表对比，是生产环境的真实权衡。
+# Vector Database Comparison: Qdrant / Pinecone / pgvector
 
----
-
-## 先说结论
-
-| 场景 | 推荐 |
-|------|------|
-| 快速原型 / 小规模（< 100万向量） | pgvector（已有 PostgreSQL 的话） |
-| 生产环境，需要高性能 | Qdrant（开源，自托管，性能好）|
-| 不想管基础设施，愿意付费 | Pinecone（托管，简单）|
-| 已有 PostgreSQL，不想多一个服务 | pgvector |
-| 需要混合检索（向量 + 关键词） | Qdrant 或 Weaviate |
-| 企业级，需要 SLA 和合规 | Pinecone 或 Weaviate Cloud |
+> Not a feature checklist — real production trade-offs.
 
 ---
 
-## 核心差异
+## Bottom Line Up Front
+
+| Scenario | Recommendation |
+|----------|----------------|
+| Quick prototype / small scale (<1M vectors) | pgvector (if you already have PostgreSQL) |
+| Production, high-performance required | Qdrant (open-source, self-hosted, excellent performance) |
+| No infrastructure to manage, willing to pay | Pinecone (fully managed, simple) |
+| Already on PostgreSQL, don't want another service | pgvector |
+| Hybrid search needed (vector + keyword) | Qdrant or Weaviate |
+| Enterprise, need SLA and compliance | Pinecone or Weaviate Cloud |
+
+---
+
+## Core Differences
 
 ### Qdrant
 
-**优点**：
-- 开源（Apache 2.0），自托管无供应商锁定
-- 原生支持混合检索（Dense + Sparse）
-- Rust 实现，性能出色，内存效率高
-- 支持过滤条件（按元数据过滤后再向量搜索）
-- 有托管版（Qdrant Cloud），也可自托管
+**Strengths**:
+- Open-source (Apache 2.0) — self-host with no vendor lock-in
+- Native hybrid search (Dense + Sparse vectors)
+- Written in Rust — excellent performance and memory efficiency
+- Supports filtered vector search (filter by metadata, then search)
+- Available both as a managed service (Qdrant Cloud) and self-hosted
 
-**缺点**：
-- 需要维护独立服务（如果自托管）
-- 相比 Pinecone，文档和社区相对少（但在快速增长）
+**Weaknesses**:
+- Requires maintaining a separate service (if self-hosting)
+- Smaller community and documentation compared to Pinecone (growing fast though)
 
-**适用场景**：对性能有要求、需要混合检索、不想被 SaaS 锁定的生产环境。
+**Best for**: production environments where you need performance, hybrid search, and don't want SaaS lock-in.
 
 ```python
 from qdrant_client import QdrantClient
@@ -40,13 +42,13 @@ from qdrant_client.models import Distance, VectorParams, PointStruct
 
 client = QdrantClient(url="http://localhost:6333")
 
-# 创建集合
+# Create a collection
 client.create_collection(
     collection_name="documents",
     vectors_config=VectorParams(size=1536, distance=Distance.COSINE),
 )
 
-# 插入向量（带元数据）
+# Insert vectors with metadata
 client.upsert(
     collection_name="documents",
     points=[
@@ -54,7 +56,7 @@ client.upsert(
             id=1,
             vector=embedding,
             payload={
-                "text": "原始文本",
+                "text": "original document text",
                 "source": "doc_001",
                 "date": "2026-01-01",
                 "category": "technical"
@@ -63,7 +65,7 @@ client.upsert(
     ]
 )
 
-# 带过滤的向量搜索
+# Filtered vector search
 from qdrant_client.models import Filter, FieldCondition, MatchValue
 
 results = client.search(
@@ -78,19 +80,19 @@ results = client.search(
 
 ### Pinecone
 
-**优点**：
-- 全托管，零运维
-- 最成熟的 API，文档最好
-- 全球部署，低延迟
-- 支持 Namespace（多租户隔离）
+**Strengths**:
+- Fully managed — zero ops
+- Most mature API and best documentation
+- Global deployment, low latency
+- Namespace support for multi-tenant isolation
 
-**缺点**：
-- 供应商锁定（专有服务）
-- 成本较高（规模大后很贵）
-- 不支持原生混合检索（需要额外 BM25 实现）
-- 数据在第三方服务器上（某些合规场景不行）
+**Weaknesses**:
+- Vendor lock-in (proprietary service)
+- Expensive at scale
+- No native hybrid search (requires a separate BM25 implementation)
+- Data lives on third-party servers (a blocker in some compliance scenarios)
 
-**定价参考**：Starter 免费（100 万向量），生产环境按存储和查询量计费，$70/月起。
+**Pricing reference**: Starter tier is free (up to 1M vectors); production billing is based on storage and query volume, starting at $70/month.
 
 ```python
 from pinecone import Pinecone, ServerlessSpec
@@ -106,12 +108,12 @@ pc.create_index(
 
 index = pc.Index("documents")
 
-# 插入
+# Upsert
 index.upsert(vectors=[
     {"id": "doc_001", "values": embedding, "metadata": {"text": "...", "date": "2026-01"}}
 ])
 
-# 查询
+# Query
 results = index.query(
     vector=query_embedding,
     top_k=10,
@@ -122,25 +124,25 @@ results = index.query(
 
 ### pgvector
 
-**优点**：
-- 在已有的 PostgreSQL 里直接用，零额外基础设施
-- SQL 语法，开发者熟悉
-- 可以和普通 SQL 查询结合（关系数据 + 向量搜索）
-- 完全自控，无供应商锁定
-- 成本最低（已有数据库的话）
+**Strengths**:
+- Runs inside your existing PostgreSQL instance — zero additional infrastructure
+- Standard SQL syntax — familiar to any developer
+- Combine vector search with regular SQL queries (relational data + vector search together)
+- Fully self-controlled, no vendor lock-in
+- Lowest cost if you're already running PostgreSQL
 
-**缺点**：
-- 性能不如专门的向量数据库（大规模时）
-- 建议上限：< 500 万向量（超过后延迟明显上升）
-- 需要额外配置才能支持混合检索（FTS + 向量）
+**Weaknesses**:
+- Lower performance than purpose-built vector databases at scale
+- Recommended ceiling: <5M vectors (latency degrades noticeably beyond that)
+- Hybrid search requires additional setup (FTS + vector)
 
-**什么时候用**：已经在用 PostgreSQL，数据量 < 500 万向量，不想多维护一个服务。
+**When to use it**: you're already on PostgreSQL, have fewer than 5M vectors, and don't want to operate another service.
 
 ```sql
--- 安装扩展
+-- Install the extension
 CREATE EXTENSION vector;
 
--- 创建带向量字段的表
+-- Create a table with a vector column
 CREATE TABLE documents (
     id SERIAL PRIMARY KEY,
     content TEXT,
@@ -149,35 +151,39 @@ CREATE TABLE documents (
     created_at TIMESTAMP DEFAULT NOW()
 );
 
--- 创建 IVFFlat 索引（加速大规模查询）
-CREATE INDEX ON documents USING ivfflat (embedding vector_cosine_ops)
-WITH (lists = 100);  -- lists = sqrt(总行数) 是经验值
+-- Create an HNSW index (faster for large-scale queries)
+CREATE INDEX ON documents USING hnsw (embedding vector_cosine_ops)
+WITH (m = 16, ef_construction = 64);
 
--- 向量搜索
+-- Or IVFFlat index
+-- CREATE INDEX ON documents USING ivfflat (embedding vector_cosine_ops)
+-- WITH (lists = 100);  -- lists ≈ sqrt(total rows) is a common rule of thumb
+
+-- Vector search
 SELECT id, content, source,
        1 - (embedding <=> '[0.1, 0.2, ...]'::vector) AS similarity
 FROM documents
-WHERE source = 'technical'  -- 先过滤，再向量搜索
+WHERE source = 'technical'  -- filter first, then vector search
 ORDER BY embedding <=> '[0.1, 0.2, ...]'::vector
 LIMIT 10;
 ```
 
 ```python
-# Python 使用（推荐 psycopg3）
+# Python usage (psycopg3 recommended)
 import psycopg
 import numpy as np
 
 conn = psycopg.connect("postgresql://user:pass@localhost/dbname")
 
-# 插入向量
+# Insert a vector
 with conn.cursor() as cur:
     cur.execute(
         "INSERT INTO documents (content, embedding, source) VALUES (%s, %s, %s)",
-        ("文档内容", embedding.tolist(), "doc_001")
+        ("document text", embedding.tolist(), "doc_001")
     )
 conn.commit()
 
-# 查询
+# Query
 with conn.cursor() as cur:
     cur.execute("""
         SELECT id, content, 1 - (embedding <=> %s) AS similarity
@@ -190,33 +196,33 @@ with conn.cursor() as cur:
 
 ---
 
-## 性能对比
+## Performance Comparison
 
-在 100 万向量、1536 维、余弦相似度、top-10 查询的条件下（粗略参考）：
+Rough benchmarks at 1M vectors, 1536 dimensions, cosine similarity, top-10 queries:
 
-| 数据库 | P50 延迟 | P99 延迟 | QPS（单节点） |
-|--------|---------|---------|-------------|
-| Qdrant | ~5ms | ~15ms | ~2000 |
-| Pinecone | ~10ms | ~30ms | 托管，可扩展 |
-| pgvector（HNSW） | ~10ms | ~50ms | ~500 |
-| pgvector（IVFFlat） | ~20ms | ~100ms | ~300 |
+| Database | P50 latency | P99 latency | QPS (single node) |
+|----------|-------------|-------------|-------------------|
+| Qdrant | ~5ms | ~15ms | ~2,000 |
+| Pinecone | ~10ms | ~30ms | Managed, scales horizontally |
+| pgvector (HNSW) | ~10ms | ~50ms | ~500 |
+| pgvector (IVFFlat) | ~20ms | ~100ms | ~300 |
 
-**注意**：延迟高度依赖硬件、网络、数据规模、索引配置。以上数据仅供量级参考，上线前必须用真实数据自己跑 benchmark。
+**Important**: latency depends heavily on hardware, network, data scale, and index configuration. These numbers are order-of-magnitude references only. Run your own benchmark with real data before committing to a choice.
 
 ---
 
-## 选型决策树
+## Decision Tree
 
 ```
-问：你的 PostgreSQL 里已经有数据，且向量数量 < 500万？
-└── 是 → 用 pgvector（最简单，零额外成本）
-└── 否 ↓
+Q: Do you already have your data in PostgreSQL, and is your vector count <5M?
+└── Yes → Use pgvector (simplest path, no added cost)
+└── No  ↓
 
-问：你需要混合检索（向量 + 关键词 BM25）？
-└── 是 → 用 Qdrant 或 Weaviate
-└── 否 ↓
+Q: Do you need hybrid search (vector + keyword BM25)?
+└── Yes → Use Qdrant or Weaviate
+└── No  ↓
 
-问：你有 DevOps 能力管理独立服务？
-└── 是 → 用 Qdrant（自托管，成本最优）
-└── 否 → 用 Pinecone（托管，零运维）
+Q: Do you have DevOps capacity to run a separate service?
+└── Yes → Use Qdrant (self-hosted, best cost efficiency)
+└── No  → Use Pinecone (fully managed, zero ops)
 ```

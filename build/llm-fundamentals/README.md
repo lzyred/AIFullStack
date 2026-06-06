@@ -1,56 +1,58 @@
-# LLM 工程基础
+[中文](README.zh.md) | **English**
 
-> 工程师视角，不是学术解释。理解这些，才能在出问题时知道去哪里修。
+# LLM Engineering Fundamentals
+
+> Written from an engineer's perspective, not an academic one. Understanding this material is what lets you know where to look when things break.
 
 ---
 
-## Token：成本和限制的根源
+## Tokens: The Root of All Costs and Limits
 
-### Token 是什么
+### What Is a Token?
 
-Token 不等于单词。粗略估算：
-- 英文：1 token ≈ 0.75 个单词，100 tokens ≈ 75 个词
-- 中文：1 个汉字 ≈ 1-2 tokens（Anthropic 新 tokenizer 效率更高）
-- 代码：关键词通常 1 token，变量名可能 2-4 tokens
+A token is not a word. Rough estimates:
+- English: 1 token ≈ 0.75 words; 100 tokens ≈ 75 words
+- Chinese/CJK: 1 character ≈ 1–2 tokens (Anthropic's newer tokenizer is more efficient)
+- Code: keywords are usually 1 token; variable names can be 2–4 tokens
 
 ```python
-# 精确计算 token 数（Anthropic）
+# Count tokens precisely (Anthropic)
 import anthropic
 client = anthropic.Anthropic()
 response = client.messages.count_tokens(
     model="claude-sonnet-4-6",
     messages=[{"role": "user", "content": your_text}]
 )
-print(f"Token 数: {response.input_tokens}")
+print(f"Token count: {response.input_tokens}")
 
-# 精确计算 token 数（OpenAI）
+# Count tokens precisely (OpenAI)
 import tiktoken
 enc = tiktoken.encoding_for_model("gpt-4o")
 tokens = enc.encode(your_text)
-print(f"Token 数: {len(tokens)}")
+print(f"Token count: {len(tokens)}")
 ```
 
-### 成本计算
+### Cost Calculation
 
-**主流模型定价（截至 2026 年 6 月，单位：美元/百万 token）**
+**Current model pricing (as of June 2026, USD per million tokens)**
 
-| 模型 | 输入 | 输出 | 上下文窗口 |
-|------|------|------|-----------|
+| Model | Input | Output | Context window |
+|-------|-------|--------|----------------|
 | Claude Sonnet 4.6 | $3 | $15 | 1M tokens |
 | Claude Haiku 4.5 | $1 | $5 | 200k tokens |
 | GPT-4o-mini | ~$0.15 | ~$0.6 | 128k tokens |
 | GPT-4o | ~$2.5 | ~$10 | 128k tokens |
 
-**关键洞见**：
-- 输出 token 比输入贵 3-5x，优化成本的重点在于**控制输出长度**
-- Batch API（异步处理）有 50% 折扣，适合离线评估和批量任务
-- Prompt Caching（Claude）：重复前缀命中缓存后只付 10% 价格
+**Key insights**:
+- Output tokens cost 3–5x more than input tokens — the highest-leverage cost optimization is **controlling output length**
+- The Batch API (async processing) offers a 50% discount, suitable for offline evaluation and bulk jobs
+- Prompt Caching (Claude): repeated prefix hits cost only 10% of normal input pricing
 
 ```python
-# 单次请求的成本估算
+# Estimate the cost of a single request
 def estimate_cost(input_tokens: int, output_tokens: int, model: str) -> float:
     pricing = {
-        "claude-sonnet-4-6": (3.0, 15.0),   # (输入价格, 输出价格) per MTok
+        "claude-sonnet-4-6": (3.0, 15.0),   # (input price, output price) per MTok
         "claude-haiku-4-5": (1.0, 5.0),
     }
     inp_price, out_price = pricing[model]
@@ -59,24 +61,24 @@ def estimate_cost(input_tokens: int, output_tokens: int, model: str) -> float:
 
 ---
 
-## 上下文窗口管理
+## Context Window Management
 
-### 核心限制
+### The Core Constraint
 
-上下文窗口 = 模型一次能看到的最大 token 数，包含：system prompt + 历史对话 + 当前输入 + 输出空间。
+Context window = the maximum number of tokens the model can see in one request. This includes: system prompt + conversation history + current input + space for the output.
 
-**常见陷阱**：RAG pipeline 没有 token 计数，检索结果 + 对话历史 + system prompt 超出限制，触发 API 报错。
+**Common trap**: a RAG pipeline with no token counting — retrieved chunks + conversation history + system prompt quietly exceed the limit and trigger an API error.
 
 ```python
 import anthropic
 
 client = anthropic.Anthropic()
 
-MAX_CONTEXT = 180_000  # 留 20k 给输出
+MAX_CONTEXT = 180_000  # Leave 20k for output
 SYSTEM_PROMPT = "..."
 
 def safe_messages_create(messages: list, new_message: str) -> str:
-    # 1. 计算当前 token 数
+    # 1. Count current tokens
     all_messages = messages + [{"role": "user", "content": new_message}]
     token_count = client.messages.count_tokens(
         model="claude-sonnet-4-6",
@@ -84,9 +86,9 @@ def safe_messages_create(messages: list, new_message: str) -> str:
         messages=all_messages
     ).input_tokens
 
-    # 2. 如果超限，截断最旧的对话（保留最新的 N 条）
+    # 2. If over the limit, drop the oldest turns (keep the most recent N)
     while token_count > MAX_CONTEXT and len(messages) > 2:
-        messages = messages[2:]  # 移除最旧的一轮对话（user + assistant）
+        messages = messages[2:]  # Remove oldest turn (one user + one assistant message)
         all_messages = messages + [{"role": "user", "content": new_message}]
         token_count = client.messages.count_tokens(
             model="claude-sonnet-4-6",
@@ -105,9 +107,9 @@ def safe_messages_create(messages: list, new_message: str) -> str:
 
 ---
 
-## 三大 API 接口差异
+## API Differences Across the Three Major Providers
 
-实际代码层面的差异，不是营销描述。
+Actual code-level differences — not marketing copy.
 
 ```python
 # ========== OpenAI ==========
@@ -117,11 +119,11 @@ client = OpenAI()
 response = client.chat.completions.create(
     model="gpt-4o-mini",
     messages=[
-        {"role": "system", "content": "你是助手"},  # system 是一条 message
-        {"role": "user", "content": "你好"}
+        {"role": "system", "content": "You are an assistant"},  # system is a message
+        {"role": "user", "content": "Hello"}
     ],
     temperature=0.7,
-    max_tokens=1024       # 可选，有默认值
+    max_tokens=1024       # Optional, has a default value
 )
 text = response.choices[0].message.content
 usage = response.usage   # .prompt_tokens, .completion_tokens
@@ -133,47 +135,47 @@ client = Anthropic()
 
 response = client.messages.create(
     model="claude-sonnet-4-6",
-    max_tokens=1024,       # 必填！无默认值，忘填直接报错
-    system="你是助手",     # system 是顶层字段，不是 message
+    max_tokens=1024,       # Required! No default — omitting this will error immediately
+    system="You are an assistant",     # system is a top-level field, not a message
     messages=[
-        {"role": "user", "content": "你好"}
-        # 注意：只有 user 和 assistant 两种 role
+        {"role": "user", "content": "Hello"}
+        # Note: only "user" and "assistant" roles exist
     ]
 )
-text = response.content[0].text    # 注意结构与 OpenAI 不同
+text = response.content[0].text    # Note: different structure from OpenAI
 usage = response.usage   # .input_tokens, .output_tokens
 
 
-# ========== Gemini（新版 SDK：google-genai >= 1.0）==========
+# ========== Gemini (new SDK: google-genai >= 1.0) ==========
 from google import genai as google_genai
 client_gemini = google_genai.Client(api_key="...")
 
 response = client_gemini.models.generate_content(
     model="gemini-2.0-flash",
-    contents="你好",
-    config={"system_instruction": "你是助手"}
+    contents="Hello",
+    config={"system_instruction": "You are an assistant"}
 )
 text = response.text
 ```
 
-### 关键差异汇总
+### Key Differences at a Glance
 
-| 差异点 | OpenAI | Anthropic | Gemini |
-|--------|--------|-----------|--------|
-| System prompt | `role: "system"` message | 独立 `system` 字段 | `system_instruction` 字段 |
-| `max_tokens` | 可选，有默认值 | **必填，无默认值** | 可选 |
-| 强制工具调用 | `tool_choice: "required"` | `tool_choice: {"type": "tool", "name": "xxx"}` | 类似 OpenAI |
-| Prefill | 不支持 | 支持 assistant 消息预填充 | 不支持 |
-| 流式结构 | `choices[0].delta.content` | `text_stream` 迭代器 | `for chunk in stream: chunk.text` |
+| Difference | OpenAI | Anthropic | Gemini |
+|-----------|--------|-----------|--------|
+| System prompt | `role: "system"` message | Separate top-level `system` field | `system_instruction` field |
+| `max_tokens` | Optional, has default | **Required, no default** | Optional |
+| Force tool call | `tool_choice: "required"` | `tool_choice: {"type": "tool", "name": "xxx"}` | Similar to OpenAI |
+| Prefill | Not supported | Supported via assistant message | Not supported |
+| Streaming structure | `choices[0].delta.content` | `text_stream` iterator | `for chunk in stream: chunk.text` |
 
 ---
 
-## 流式输出
+## Streaming Output
 
-用户体验的关键：TTFT（Time To First Token）从 5s 降到 0.5s 的感知差异。
+Critical for perceived performance: the difference between a 5s and 0.5s TTFT (Time To First Token) is dramatic to users.
 
 ```python
-# Anthropic 流式（推荐写法）
+# Anthropic streaming (recommended pattern)
 import anthropic
 
 client = anthropic.Anthropic()
@@ -181,26 +183,26 @@ client = anthropic.Anthropic()
 with client.messages.stream(
     model="claude-sonnet-4-6",
     max_tokens=1024,
-    messages=[{"role": "user", "content": "写一首短诗"}]
+    messages=[{"role": "user", "content": "Write a short poem"}]
 ) as stream:
     for text in stream.text_stream:
-        print(text, end="", flush=True)  # flush=True 关键，否则不实时显示
+        print(text, end="", flush=True)  # flush=True is critical — without it output buffers and won't appear in real time
 
-# 流结束后获取完整用量
+# Get full usage stats after the stream finishes
 final = stream.get_final_message()
-print(f"\n输入: {final.usage.input_tokens}, 输出: {final.usage.output_tokens}")
+print(f"\nInput: {final.usage.input_tokens}, Output: {final.usage.output_tokens}")
 ```
 
 ```python
-# OpenAI 流式
+# OpenAI streaming
 from openai import OpenAI
 
 client = OpenAI()
 stream = client.chat.completions.create(
     model="gpt-4o-mini",
-    messages=[{"role": "user", "content": "写一首短诗"}],
+    messages=[{"role": "user", "content": "Write a short poem"}],
     stream=True,
-    stream_options={"include_usage": True}  # 必须显式开启才能获取 token 用量
+    stream_options={"include_usage": True}  # Must be explicitly enabled to get token usage
 )
 
 for chunk in stream:
@@ -210,26 +212,26 @@ for chunk in stream:
         print(f"\nTokens: {chunk.usage.total_tokens}")
 ```
 
-**流式输出踩坑**：
-- 不加 `flush=True`，缓冲区满才输出，用户看不到实时效果
-- 做 SSE 接口时必须设置 `Content-Type: text/event-stream` 和 `Cache-Control: no-cache`
-- 流式模式下的异常要包住整个迭代过程，不只是创建调用
+**Streaming pitfalls**:
+- Omitting `flush=True` causes buffered output — users see nothing until the buffer fills
+- SSE endpoints must set `Content-Type: text/event-stream` and `Cache-Control: no-cache`
+- In streaming mode, wrap the entire iteration in a try/except — not just the initial create call
 
 ---
 
-## 成本控制策略（按 ROI 排序）
+## Cost Control Strategies (Ordered by ROI)
 
-### 1. 模型路由（最高 ROI）
+### 1. Model Routing (Highest ROI)
 
 ```python
 def route_model(query: str) -> str:
-    """用最便宜的模型分类，再路由到合适的模型"""
+    """Use the cheapest model to classify, then route to the appropriate model"""
     classification = client.messages.create(
-        model="claude-haiku-4-5",   # 最便宜，用来做分类
+        model="claude-haiku-4-5",   # Cheapest — use it for classification only
         max_tokens=10,
         messages=[{
             "role": "user",
-            "content": f"判断以下问题的复杂度：simple/complex\n问题：{query}"
+            "content": f"Classify the complexity of the following question as simple or complex:\n{query}"
         }]
     ).content[0].text.strip().lower()
 
@@ -239,7 +241,7 @@ def route_model(query: str) -> str:
         return "claude-sonnet-4-6"     # $3/$15 per MTok
 ```
 
-### 2. Prompt Caching（Claude 独有，命中后省 90% 输入成本）
+### 2. Prompt Caching (Claude-Specific — 90% Input Cost Reduction on Cache Hits)
 
 ```python
 response = client.messages.create(
@@ -247,33 +249,33 @@ response = client.messages.create(
     max_tokens=1024,
     system=[{
         "type": "text",
-        "text": very_long_system_prompt_or_document,  # 长且固定的内容
-        "cache_control": {"type": "ephemeral"}        # 标记为可缓存
+        "text": very_long_system_prompt_or_document,  # Long, static content
+        "cache_control": {"type": "ephemeral"}        # Mark as cacheable
     }],
     messages=[{"role": "user", "content": user_query}]
 )
-# 第一次：正常计费（写入缓存）
-# 后续命中缓存：输入 token 只收 10% 价格
-# 注意：ephemeral 缓存 TTL 为 5 分钟，请求间隔超过 5 分钟缓存失效需重新写入
+# First request: billed normally (writes to cache)
+# Subsequent cache hits: input tokens charged at 10% of normal price
+# Note: ephemeral cache TTL is 5 minutes — gaps longer than that require re-writing the cache
 ```
 
-### 3. 输出长度控制
+### 3. Output Length Control
 
 ```python
-# 在 prompt 里明确限制输出
-"用不超过 3 句话回答"
-"只返回 JSON，不要解释"
+# Constrain output length directly in the prompt
+"Answer in no more than 3 sentences"
+"Return only JSON — no explanation"
 
-# 用 stop sequences 提前终止
+# Use stop sequences to terminate early
 response = client.messages.create(
     model="claude-sonnet-4-6",
     max_tokens=500,
-    stop_sequences=["</answer>"],  # 找到这个 token 就停止
+    stop_sequences=["</answer>"],  # Stop as soon as this token is encountered
     ...
 )
 ```
 
-### 4. 语义缓存常见查询
+### 4. Semantic Caching for Common Queries
 
 ```python
 import hashlib
@@ -292,16 +294,20 @@ def cached_llm(prompt: str, model: str = "claude-haiku-4-5") -> str:
 
 ---
 
-## 为什么模型会幻觉
+## Why Models Hallucinate
 
-理解原因，才能设计正确的防护：
+Understanding the cause is what lets you design the right defenses:
 
-1. **训练数据截止**：模型不知道近期发生的事情，但会"自信地猜测"
-2. **知识边界不清晰**：模型不知道自己不知道什么，缺乏元认知
-3. **统计倾向**：倾向于生成"看起来合理"的内容，而非"确认准确"的内容
+1. **Training data cutoff**: the model has no knowledge of recent events, but will still answer confidently
+2. **Unclear knowledge boundaries**: the model doesn't know what it doesn't know — it lacks reliable metacognition
+3. **Statistical tendency**: the model is optimized to generate text that *looks* plausible, not text that is *confirmed* accurate
 
-**工程层面的防护**：
-- 提供上下文（RAG），让模型基于文档而非记忆回答
-- 明确说明"不知道就说不知道"
-- 对关键输出做 programmatic 验证（代码执行、API 调用验证）
-- 不要用 AI 回答需要精确数字的问题（价格、日期、统计数据）
+**Engineering-layer defenses**:
+- Provide context (RAG) so the model answers from documents, not memory
+- Explicitly tell the model to say "I don't know" when it doesn't know
+- Run programmatic validation on critical outputs (execute the code, call the API to verify)
+- Do not use AI to answer questions requiring precise figures (prices, dates, statistics)
+
+---
+
+*[中文版 (Chinese)](README.zh.md)*

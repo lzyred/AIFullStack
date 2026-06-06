@@ -1,142 +1,148 @@
-# AI 产品市场时机判断
+[中文](README.zh.md) | **English**
 
-> Sam Altman 检验：时机判断是产品战略的一部分，不是运气。
+# Market Timing for AI Products
 
----
-
-## 当前的机会窗口
-
-**2024-2026 年处于的阶段**：AI 基础能力已越过实用门槛，但大多数行业的工作流改造才刚刚开始。
-
-类比：2008 年移动互联网——iPhone 已发布，App Store 已开放，但 99% 的行业专属应用还没被建造出来。那是一个巨大的窗口，现在 AI 处于同等位置。
-
-**Sam Altman 的复利视角**：选择有指数增长特性的市场，而非线性增长市场。AI 能力本身在指数增长，越早在正确的垂直领域布局，护城河越深。
+> The Sam Altman test: timing is part of product strategy, not a matter of luck.
 
 ---
 
-## 三类机会区间
+## The Current Opportunity Window
+
+**Where we are in 2024–2026**: AI's foundational capabilities have crossed the threshold of practical usefulness, but workflow transformation across most industries is only just beginning.
+
+The analogy: 2008 mobile internet — iPhone shipped, App Store open, but 99% of industry-specific applications hadn't been built yet. That was a massive window. AI is in the same position now.
+
+**Sam Altman's compounding lens**: choose markets with exponential growth characteristics, not linear ones. AI capability itself is growing exponentially — the earlier you establish a foothold in the right vertical, the deeper your moat becomes.
+
+---
+
+## Three Opportunity Categories
 
 ```
-技术已成熟 × 市场认知已成熟 = 红海（不要进）
-  → 太多竞争者，价格战，难以差异化
+Technology mature × Market awareness mature  = Red ocean (don't enter)
+  → Too many competitors, price wars, no meaningful differentiation
 
-技术已成熟 × 市场认知滞后 = 黄金窗口（现在进）
-  → 技术门槛已降低，但市场还没有标准解决方案
+Technology mature × Market awareness lagging = Golden window (enter now)
+  → Technical barrier is lower, but no standard solution exists yet
 
-技术未成熟 × 市场认知已成熟 = 等待（别过早进入）
-  → 用户需求明确但技术还不够好，现在进入是在烧钱等待技术成熟
+Technology immature × Market awareness mature = Wait (don't enter too early)
+  → Demand is clear but technology isn't good enough yet — you'd be burning cash waiting for the tech to catch up
 ```
 
-### 当前黄金窗口领域
+### Current Golden Window Areas
 
-技术已达门槛，但大多数行业还没有建立标准解决方案：
+Technology has crossed the threshold, but most industries haven't established a standard solution:
 
-**垂直行业知识工作自动化**：
-- 法律：合同分析、法律研究、文书准备
-- 医疗：临床记录、患者沟通、保险理赔
-- 财务：账务处理、报告生成、合规审查
+**Vertical knowledge work automation**:
+- Legal: contract analysis, legal research, document preparation
+- Healthcare: clinical notes, patient communication, insurance claims
+- Finance: bookkeeping, report generation, compliance review
 
-**中小企业"大公司能力普惠化"**：
-- 大公司有专业营销团队，小公司没有 → AI 营销工具
-- 大公司有法务团队，小公司没有 → AI 法律辅助
-- 大公司有数据分析师，小公司没有 → AI 数据分析
+**"Big company capabilities" for small businesses**:
+- Large companies have marketing teams; small ones don't → AI marketing tools
+- Large companies have in-house legal; small ones don't → AI legal assistance
+- Large companies have data analysts; small ones don't → AI data analysis
 
-**嵌入已有工作流的 AI 层**：
-- 不要求用户改变工作习惯
-- 在用户已有工具（ERP/CRM/文档工具）上加 AI 层
-- 集成 > 替换
-
----
-
-## 时机节点分析
-
-### 现在（2026）该做
-
-- **替代可重复认知劳动**：格式转换、数据提取、初稿生成、摘要
-- **帮助中小企业获得原本需要专业人员的能力**
-- **嵌入已有工作流的 AI 层**（接受程度最高，阻力最小）
-- **私有数据驱动的垂直应用**（企业内部知识库、行业专属数据）
-
-### 12-24 个月后才考虑
-
-- **完全可靠的自主 Agent**：目前错误率仍高，高风险决策场景还不成熟
-- **需要实时感知物理世界的应用**：视频理解、机器人协作
-- **高度个人化的 AI 伴侣**：需要更长时间的数据积累
+**AI as a layer embedded in existing workflows**:
+- Don't ask users to change how they work
+- Add an AI layer on top of tools they already use (ERP/CRM/document tools)
+- Integration beats replacement
 
 ---
 
-## 6 个月、1 年、3 年的里程碑
+## Timing Analysis by Horizon
 
-### 6 个月：PMF 验证
+### Build now (2026)
 
-**目标**：找到 10-20 个真实付费用户并理解他们为什么付钱。
+- **Replace repetitive cognitive labor**: format conversion, data extraction, first-draft generation, summarization
+- **Give small businesses access to capabilities that previously required specialists**
+- **AI embedded in existing workflows** (lowest friction, highest adoption readiness)
+- **Vertical applications driven by private data** (internal knowledge bases, industry-specific datasets)
 
-关键问题：
-- 哪类用户付钱最快？（这是你的核心客户画像）
-- 他们在什么场景下使用，多少频率？
-- 他们为什么选你而不是其他方案？
+### Wait 12–24 months
 
-**如果 6 个月后还没有付费用户**：不是继续做的时候，是重新审视定位的时候。
-
-### 1 年：分发模式验证
-
-**目标**：找到可重复的获客路径，不靠创始人的个人关系。
-
-关键问题：
-- 有没有一个渠道持续带来质量稳定的用户？
-- 用户推荐率是多少？（> 20% 是健康信号）
-- 竞争对手开始进入了吗？（说明你验证的市场是真实的）
-
-**如果 1 年后还没有可重复的获客路径**：产品定位可能有问题，用户不知道如何向他人介绍你的价值。
-
-### 3 年：护城河形成
-
-**目标**：建立真正的竞争壁垒，而不是功能差异化。
-
-三个护城河方向：
-1. **私有数据**：用户使用数据形成个性化模型，或独家行业数据
-2. **工作流绑定**：深度集成用户系统，替换成本极高
-3. **用户转换成本**：用户积累的上下文、历史、配置
-
-**如果 3 年后护城河没有形成**：面临商品化（commoditization）风险，基础模型的持续升级会让你的差异化消失。
+- **Fully reliable autonomous agents**: error rates are still too high for high-stakes decision scenarios
+- **Applications requiring real-time physical world perception**: video understanding, robotics
+- **Deeply personalized AI companions**: need longer data accumulation to be credible
 
 ---
 
-## 判断"现在进"还是"等一等"
+## Milestones: 6 Months, 1 Year, 3 Years
 
-用这个框架判断时机：
+### 6 months: PMF validation
+
+**Goal**: find 10–20 real paying users and understand exactly why they're paying.
+
+Key questions:
+- Which type of user paid fastest? (That's your core customer profile)
+- In what scenarios do they use it, and how often?
+- Why did they choose you over other options?
+
+**If you don't have any paying users after 6 months**: it's not time to push harder — it's time to revisit your positioning.
+
+### 1 year: Distribution model validation
+
+**Goal**: find a repeatable acquisition channel that doesn't depend on the founders' personal networks.
+
+Key questions:
+- Is there one channel consistently delivering quality users?
+- What's your referral rate? (>20% is a healthy signal)
+- Have competitors started entering? (Means you've validated a real market)
+
+**If you still don't have a repeatable acquisition channel after 1 year**: positioning is likely the issue — users don't know how to explain your value to someone else.
+
+### 3 years: Moat formation
+
+**Goal**: build real competitive barriers, not just feature differentiation.
+
+Three moat directions:
+1. **Proprietary data**: personalized models from user behavior, or exclusive industry data
+2. **Workflow lock-in**: deep system integration makes switching extremely costly
+3. **Accumulated switching costs**: context, history, and configuration users have built up over time
+
+**If no moat has formed after 3 years**: you face commoditization risk — continued improvements to foundation models will erase whatever differentiation you have.
+
+---
+
+## The "Build Now vs. Wait" Decision
+
+Use this framework to evaluate timing:
 
 ```python
 def should_build_now(opportunity: dict) -> str:
     checks = {
-        "technology_ready": "当前 LLM 能力是否足够解决这个问题的 80%？",
-        "market_awareness": "目标用户是否已经在寻找解决方案？",
-        "willingness_to_pay": "有人已经在为类似方案付钱吗（哪怕是低效的）？",
-        "competitive_window": "是否还没有资金充足的竞争者在做这件事？",
+        "technology_ready": "Can current LLM capability solve 80% of this problem?",
+        "market_awareness": "Are target users already looking for a solution?",
+        "willingness_to_pay": "Is anyone already paying for something similar (even an inefficient version)?",
+        "competitive_window": "Are there no well-funded competitors working on this yet?",
     }
 
     yes_count = sum(1 for k in checks if opportunity.get(k) == True)
 
     if yes_count >= 3:
-        return "现在进入，时机合适"
+        return "Enter now — timing is right"
     elif yes_count == 2 and opportunity.get("technology_ready"):
-        return "可以进入，但要快，窗口可能不长"
+        return "Can enter, but move fast — the window may be short"
     else:
-        return "等待，技术或市场还未就绪"
+        return "Wait — technology or market isn't ready yet"
 ```
 
 ---
 
-## 不要做的事
+## What Not to Do
 
-**等待技术"完美"再开始**：
+**Waiting for technology to be "perfect" before starting**:
 
-AI 技术永远不会"完美"。现在 80% 够好的能力，对于大多数真实场景已经足够。等到 99% 完美，市场已经被占领。
+AI will never be "perfect." 80% capability today is already sufficient for most real-world scenarios. Wait for 99%, and the market will be taken.
 
-**追着技术热点走**：
+**Chasing the latest technology hype**:
 
-每隔几个月会有新的 AI 技术热点（Multimodal、Reasoning、Agents...）。不要每次都改变方向去追最新技术，除非它直接解决你的核心场景。
+Every few months there's a new AI trend (Multimodal, Reasoning, Agents...). Don't change direction every time to chase the latest capability — unless it directly solves your core use case.
 
-**低估执行速度的重要性**：
+**Underestimating the value of execution speed**:
 
-时机窗口存在，但不是无限的。Wiz 的案例：以色列工程师白天写代码，晚上做美国销售，从 $0 到 $2.8M 单季度，18 个月达到 $100M ARR。在黄金窗口期，执行速度本身就是护城河。
+The timing window exists, but it isn't infinite. Wiz's example: Israeli engineers coded during the day and ran US sales calls at night — from $0 to $2.8M in a single quarter, reaching $100M ARR in 18 months. During a golden window, execution speed is itself a moat.
+
+---
+
+*[中文版 (Chinese)](README.zh.md)*
