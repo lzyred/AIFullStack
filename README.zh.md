@@ -89,10 +89,20 @@ AIFullStack/
 │   ├── vector-databases.md         # Qdrant / Pinecone / pgvector：成本与性能权衡
 │   └── frameworks.md               # LangChain / LlamaIndex / 裸 API：真实使用体验
 │
-└── case-studies/                   # 完整项目复盘：从 0 到上线的真实决策过程
-    ├── rag-chatbot/                 # 企业知识库问答系统
-    ├── ai-writing-tool/             # AI 写作辅助产品
-    └── agent-workflow/              # 多步骤自动化 Agent
+├── case-studies/                   # 完整项目复盘：从 0 到上线的真实决策过程（含弯路）
+│   ├── rag-chatbot/                 # 企业知识库问答，pgvector → Qdrant，88% 准确率
+│   ├── ai-writing-tool/             # 独立开发者，4-6h → 45min，D7 留存 12% → 31%
+│   └── agent-workflow/              # 销售外发 Pipeline，Agent → Workflow 转型，3h → 25min/天
+│
+├── templates/                      # 可直接运行的起点代码
+│   ├── minimal-rag/                 # ~130 行完整 RAG，无需外部向量数据库
+│   ├── streaming-chat/              # FastAPI + SSE 后端，原生 HTML 前端，无需构建
+│   └── agent-with-tools/            # 生产级 Agent 骨架，含 5 个示例工具
+│
+├── scripts/
+│   └── search.py                   # 在命令行搜索这个知识库
+│
+└── llms.txt                        # AI 工具可直接消费的仓库内容索引
 ```
 
 ---
@@ -108,6 +118,10 @@ AIFullStack/
 **你需要选技术栈** → 去 `comparisons/`，有横向对比和真实踩坑记录
 
 **你想看完整项目怎么做** → 去 `case-studies/`，有从 0 到上线的决策过程
+
+**你想要可以直接跑起来的代码** → 去 `templates/`，5 分钟内能运行
+
+**你要搜索某个具体内容** → `python3 scripts/search.py "你的关键词"` 或加 `--lang zh`
 
 ---
 

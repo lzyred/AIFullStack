@@ -89,10 +89,20 @@ AIFullStack/
 │   ├── vector-databases.md         # Qdrant / Pinecone / pgvector: cost vs. performance tradeoffs
 │   └── frameworks.md               # LangChain / LlamaIndex / raw API: honest real-world experience
 │
-└── case-studies/                   # Full project walkthroughs: real decisions, including the wrong ones
-    ├── rag-chatbot/                 # Enterprise knowledge base Q&A system
-    ├── ai-writing-tool/             # AI-assisted writing product
-    └── agent-workflow/              # Multi-step automation Agent
+├── case-studies/                   # Full project walkthroughs: real decisions, including the wrong ones
+│   ├── rag-chatbot/                 # Enterprise knowledge base Q&A — pgvector → Qdrant, 88% accuracy
+│   ├── ai-writing-tool/             # Solo indie dev, 4-6h → 45min, Day-7 retention 12% → 31%
+│   └── agent-workflow/              # Sales outreach pipeline, Agent → Workflow pivot, 3h → 25min/day
+│
+├── templates/                      # Runnable starter code — clone and go
+│   ├── minimal-rag/                 # Complete RAG in ~130 lines, no external vector DB
+│   ├── streaming-chat/              # FastAPI + SSE backend, vanilla HTML frontend
+│   └── agent-with-tools/            # Production-ready Agent skeleton with 5 example tools
+│
+├── scripts/
+│   └── search.py                   # Search this knowledge base from the CLI
+│
+└── llms.txt                        # AI-friendly index of all content in this repo
 ```
 
 ---
@@ -108,6 +118,10 @@ AIFullStack/
 **Need to pick a tech stack** → Check `comparisons/` — side-by-side comparisons with real production notes
 
 **Want to see how a full project comes together** → Go to `case-studies/` — decisions from 0 to launch, including the detours
+
+**Want runnable starter code** → Go to `templates/` — clone and run in under 5 minutes
+
+**Searching for something specific** → `python3 scripts/search.py "your query"`
 
 ---
 

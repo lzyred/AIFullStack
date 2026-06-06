@@ -1,0 +1,54 @@
+# AIFullStack
+
+> A knowledge base for AI full-stack developers. Covers the complete stack of building production AI products: technical implementation (Karpathy lens), growth & retention (Andrew Chen lens), and product strategy (Sam Altman lens).
+
+> Audience: developers building AI-powered internet products. Does not cover model training or research.
+
+## Getting Started
+
+- [README](README.md): Overview, iron triangle framework, how to navigate the repo
+- [中文版 README](README.zh.md): Chinese version
+
+## Build — Technical Implementation
+
+- [LLM Fundamentals](build/llm-fundamentals/README.md): Tokens, pricing, context window management, API differences across OpenAI/Anthropic/Gemini, streaming, cost control
+- [Prompt Engineering](build/prompt-engineering/README.md): System prompt design, structured output, XML tagging, prefill, few-shot patterns, anti-patterns, model comparison
+- [RAG Production Guide](build/rag/README.md): Chunking strategies, embedding selection, hybrid search, reranking, complete pipeline, production failure patterns, evaluation
+- [Agent Design](build/agents/README.md): Agent vs. Workflow decision framework, all workflow patterns with code, agent loop implementation, tool design principles, failure modes
+- [Streaming Output](build/streaming/README.md): SSE implementation, reconnect handling, FastAPI backend, frontend integration
+- [Infrastructure](build/infrastructure/README.md): Cost control, observability, rate limit handling, prompt security, deployment checklist
+
+## Grow — Growth & Retention
+
+- [Retention Mechanics](grow/retention/README.md): AI product retention benchmarks, why users don't return, 5 actionable strategies, cohort analysis
+- [Cold Start](grow/cold-start/README.md): How to get first users by product type, YC framework (Hair on Fire vs. Future Vision), cold start failure patterns
+- [Growth Loops](grow/growth-loops/README.md): Loop vs. linear channel distinction, 4 loop types for AI products, viral coefficient design, network effects
+- [Key Metrics](grow/metrics/README.md): Growth accounting framework, metric definitions with formulas, PMF signals, stage-appropriate priorities
+
+## Vision — Product Strategy
+
+- [Positioning](vision/positioning/README.md): Painkiller vs. vitamin framework, competing with ChatGPT, vertical vs. general AI, moat types
+- [Validation](vision/validation/README.md): Assumption stack, 3-step validation method, Mom Test questions, anti-self-deception techniques
+- [Market Timing](vision/market-timing/README.md): Current opportunity window, 3-zone timing framework, what to build now vs. wait on, 6-month/1-year/3-year milestones
+
+## Comparisons — Side-by-Side
+
+- [LLM Providers](comparisons/llm-providers.md): OpenAI vs. Anthropic vs. Gemini — API differences, pricing, capability gaps, multi-provider strategy
+- [Vector Databases](comparisons/vector-databases.md): Qdrant vs. Pinecone vs. pgvector — performance, cost, operational complexity, decision tree
+- [Frameworks](comparisons/frameworks.md): LangChain vs. LlamaIndex vs. raw API — honest production experience, when each is worth it
+
+## Case Studies — Full Project Walkthroughs
+
+- [Enterprise RAG Chatbot](case-studies/rag-chatbot/README.md): 200-person SaaS company, 800 docs, pgvector → Qdrant migration, 88% accuracy
+- [AI Writing Tool](case-studies/ai-writing-tool/README.md): Solo indie developer, newsletter AI for B2B SaaS, 4-6h → 45min, Day-7 retention 12% → 31%
+- [Agent Workflow Automation](case-studies/agent-workflow/README.md): Sales outreach pipeline, Agent → Workflow pivot after production failures, 3h/day → 25min/day
+
+## Templates — Runnable Starter Code
+
+- [Minimal RAG](templates/minimal-rag/README.md): Complete RAG pipeline in ~130 lines, no external vector DB, in-memory numpy
+- [Streaming Chat](templates/streaming-chat/README.md): FastAPI + SSE backend, vanilla HTML/JS frontend, no build step
+- [Agent with Tools](templates/agent-with-tools/README.md): Production-ready agent skeleton, 5 example tools, human-in-the-loop confirmation
+
+## Optional
+
+- [scripts/search.py](scripts/search.py): CLI to search this knowledge base locally using keyword matching
